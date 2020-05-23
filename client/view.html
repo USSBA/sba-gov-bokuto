@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="Description" content="Create and manage U.S. Small Business Administration events">
+        <title>USSBA Events</title>
+        <link rel="stylesheet" type="text/css" href="public/styles.css">
+        <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <span id="menu-title"><a href="index.html"><img id="agency" src="public/agency-logo.png" alt="SBA Logo"></a></span>
+                <span id="menu-create"><a href="create.html">Create</a></span>
+                <span id="menu-view"><a href="view.html">View</a></span>
+                <span id="menu-approve"><a href="approve.html">Approve</a></span>
+                <span id="menu-recurring"><a href="login.html">Login</a></span>
+            </nav>
+        </header>
+        <main>
+            <h1>View Events</h1>
+            <p>You can track the progress of your events and update any of their information using the Modify link on the left.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">View</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">District Office</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">End Time</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="event-link"><a href="">Modify</a></td>
+                        <td class="event-name">Write a Business Plan While Square Dancing</td>
+                        <td class="event-districtoffice">Dallas/Fort Worth</td>
+                        <td class="event-startdate">05/27/2020</td>
+                        <td class="event-enddate">05/27/2020</td>
+                        <td class="event-starttime">09:45 AM</td>
+                        <td class="event-endtime">11:00 AM</td>
+                        <td class="event-status">Under Review</td>
+                    </tr>
+                    <tr>
+                        <td class="event-link"><a href="">Modify</a></td>
+                        <td class="event-name">Write a Business Plan While Square Dancing</td>
+                        <td class="event-districtoffice">Dallas/Fort Worth</td>
+                        <td class="event-startdate">05/27/2020</td>
+                        <td class="event-enddate">05/27/2020</td>
+                        <td class="event-starttime">09:45 AM</td>
+                        <td class="event-endtime">11:00 AM</td>
+                        <td class="event-status">Under Review</td>
+                    </tr>
+                    <tr>
+                        <td class="event-link"><a href="">Modify</a></td>
+                        <td class="event-name">Write a Business Plan While Square Dancing</td>
+                        <td class="event-districtoffice">Dallas/Fort Worth</td>
+                        <td class="event-startdate">05/27/2020</td>
+                        <td class="event-enddate">05/27/2020</td>
+                        <td class="event-starttime">09:45 AM</td>
+                        <td class="event-endtime">11:00 AM</td>
+                        <td class="event-status">Under Review</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+        <script>
+            var offset = new Date().getTimezoneOffset();
+            console.log(offset/60);
+        </script>
+        <footer>
+            <a href="https://www.sba.gov">U.S. Small Business Administration</a> | 409 3rd St, SW. Washington, DC 20416
+        </footer>
+    </body>
+</html>

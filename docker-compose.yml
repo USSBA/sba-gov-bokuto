@@ -1,0 +1,41 @@
+version: "3.1"
+services:
+  dynamodb:
+    container_name: dynamodb-local
+    hostname: dynamodb-local
+    image: amazon/dynamodb-local
+    ports:
+      - 8000:8000
+
+  server:
+    image: node:lts-alpine
+    depends_on:
+      - "dynamodb"
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    environment:
+      - NODE_ENV=development
+    networks:
+      - backend
+    ports:
+      - 4000:3000
+
+  # lambda:
+  #   image: amazon/lambda-build-node10.x
+  #   container_name: lambda-local
+  #   command: sam local start-lambda
+  #   ports:
+  #     - 7000:7000
+
+  # s3:
+  #   image: scality/s3server
+  #   container_name: s3-local
+  #   ports:
+  #     - 6000:6000
+

@@ -2,6 +2,112 @@
 
 <main>
     <h1>Edit Event</h1>
+    <form action="/events/<%= event.id %>" method="put">
+        <fieldset>
+            <legend>Title and Description</legend>
+            <label>Title</label>
+            <input type="text" id="sample-name-form" name="event[title]" value="<%= event.title %>" required>
+            <label>Description</label>
+            <textarea rows="5" name="event[description]" required><%= event.description %></textarea>
+            <label>District Office</label>
+            <select name="event[office]" required>
+                <% var options = ["Alabama", "Alaska", "Arizona", "Arkansas", "Baltimore", "Boise", "Buffalo", "Cleveland", "Colorado", "Columbus", "Connecticut", 
+                               "Dallas Fort Worth", "Delaware", "Eastern Pennsylvania", "El Paso", "Fresno", "Georgia", "Hawaii", "Houston", "Illinois", "Indiana", 
+                               "Iowa", "Kansas", "Kentucky", "Los Angeles", "Louisiana", "Lower Rio Grande Valley", "Lubbock-West Texas", "Maine", "Massachusetts", 
+                               "Michigan", "Minnesota", "Mississippi", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", 
+                               "North Carolina", "North Dakota", "North Florida", "Oklahoma", "Orange County", "Pittsburgh", "Portland", "Puerto Rico and US Virgin Islands",
+                               "Rhode Island", "Sacramento", "San Antonio", "San Diego", "San Francisco", "Seattle", "South Carolina", "South Dakota", "South Florida", 
+                               "St. Louis Missouri", "Syracuse", "Tennessee", "Utah", "Vermont", "Virginia", "Washington Metropolitan Area", "West Virginia", "Wichita", 
+                               "Wisconsin", "Wyoming"]; %>
+                <% for (var i = 0; i < options.length; i++) { %>
+                    <% var officeSelected = "" %>
+                    <% if (options[i] == event.office) { %>
+                        <% officeSelected = "selected" %>
+                    <% } %>
+                    <option value="<%= options[i] %>" <%= officeSelected %>><%= options[i] %></option>
+                <% } %>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Time and Date</legend>
+            <label>Start Date</label>
+            <input type="date" name="event[start_date]" value="<%= event.start_date %>" required>
+            <label>End Date</label>
+            <input type="date" name="event[end_date]" value="<%= event.end_date %>" required>
+            <label>Start Time</label>
+            <input type="time" name="event[start_time]" value="<%= event.start_time %>" required>
+            <label>End Time</label>
+            <input type="time" name="event[end_time]" value="<%= event.end_time %>" required>
+            <label>Timezone</label>
+            <select name="event[timezone]" required>
+                <% var options = ["Eastern Daylight Time (UTC -4)","Central Daylight Time (UTC -5)","Mountain Daylight Time (UTC -6)",
+                                  "Mountain Standard Time (UTC -7)","Pacific Daylight Time (UTC -7)","Alaska Daylight Time (UTC -8)",
+                                  "Hawaii Standard Time (UTC -10)"] %>
+                <% for (var i = 0; i < options.length; i++) { %>
+                    <% var timezoneSelected = "" %>
+                    <% if (options[i] == event.timezone) { %>
+                        <% timezoneSelected = "selected" %>
+                    <% } %>
+                    <option value="<%= options[i] %>" <%= timezoneSelected %>><%= options[i] %></option>
+                <% } %>
+            </select>
+            <label>Type of Event?</label>
+            <select name="event[type]">
+                <option value="in-person" <%= event.type == 'in-person' ? 'selected' : ''%>>In Person</option>
+                <option value="online" <%= event.type == 'online' ? 'selected' : ''%>>Online</option>
+            </select>
+            <label>Recurring Event?</label>
+            <select name="event[recurring]">
+                <option value="onetime" <%= event.recurring == 'onetime' ? 'selected' : ''%>>No</option>
+                <option value="recurring" <%= event.recurring == 'recurring' ? 'selected' : ''%>>Yes</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Location</legend>
+            <label for="">Name of Location</label>
+            <input type="text" id="" name="event[location_name]" value="<%= event.location_name %>" required>
+            <label for="">Street 1</label>
+            <input type="text" id="" name="event[address_street_1]" value="<%= event.address_street_1 %>" required>
+            <label for="">Street 2</label>
+            <input type="text" id="" name="event[address_street_2]" value="<%= event.address_street_2 %>">
+            <label for="">City</label>
+            <input type="text" id="" name="event[address_city]" value="<%= event.address_city %>" required>
+            <label for="">State/Province</label>
+            <select name="event[address_state]" required>
+                <% var options = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
+                                  'District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois',
+                                  'Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan',
+                                  'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York',
+                                  'North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico',
+                                  'Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington',
+                                  'West Virginia','Wisconsin','Wyoming'] %>
+                <% for (var i = 0; i < options.length; i++) { %>
+                    <% var stateSelected = "" %>
+                    <% if (options[i] == event.address_state) { %>
+                        <% stateSelected = "selected" %>
+                    <% } %>
+                    <option value="<%= options[i] %>" <%= stateSelected %>><%= options[i] %></option>
+                <% } %>
+            </select>
+            <label for="">Postal Code</label>
+            <input type="number" id="" name="event[address_zip]" value="<%= event.address_zip %>" required>
+        </fieldset>
+        <fieldset>
+            <legend>Contact Information</legend>
+            <label for="">Name</label>
+            <input type="text" id="sample-name-form" name="event[contact_name]" value="<%= event.contact_name %>">
+            <label for="">Email</label>
+            <input type="email" id="contact-email" name="event[contact_email]" value="<%= event.contact_email %>">
+            <label for="">Phone</label>
+            <input type="tel" id="contact-tel" name="event[contact_phone]" value="<%= event.contact_phone %>">
+            <label for="">Registration Link</label>
+            <input type="url" id="registration-url" name="event[registration_url]" value="<%= event.registration_url %>">
+            <label for="">Cost</label>
+            <input type="number" id="event-cost" name="event[cost]" value="<%= event.cost %>">
+        </fieldset>
+        <input type="submit" value="Submit">
+        <input type="submit" value="Save">
+    </form>
 </main>
 
 <%- include ("partials/footer.ejs") %>

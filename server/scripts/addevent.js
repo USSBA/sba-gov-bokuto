@@ -1,14 +1,13 @@
 var AWS = require("aws-sdk");
 
 AWS.config.update({
-  region: "us-west-1",
+  region: "us-west-2",
   endpoint: "http://localhost:8000"
 });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var table = "Events";
-
 var eventID = 1;
 
 var params = {

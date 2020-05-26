@@ -17,36 +17,18 @@
             </tr>
         </thead>
         <tbody>
+            <% events.forEach(function(event) { %>
             <tr>
-                <td class="event-link"><a href="">Modify</a></td>
-                <td class="event-name">Write a Business Plan While Square Dancing</td>
-                <td class="event-districtoffice">Dallas/Fort Worth</td>
+                <td class="event-link"><a href="/events/<%= event.id %>/edit">Modify</a></td>
+                <td class="event-name"><%= event.title %></td>
+                <td class="event-districtoffice"><%= event.office %></td>
                 <td class="event-startdate">05/27/2020</td>
                 <td class="event-enddate">05/27/2020</td>
                 <td class="event-starttime">09:45 AM</td>
                 <td class="event-endtime">11:00 AM</td>
-                <td class="event-status">Under Review</td>
+                <td class="event-status"><%= event.status %></td>
             </tr>
-            <tr>
-                <td class="event-link"><a href="">Modify</a></td>
-                <td class="event-name">Write a Business Plan While Square Dancing</td>
-                <td class="event-districtoffice">Dallas/Fort Worth</td>
-                <td class="event-startdate">05/27/2020</td>
-                <td class="event-enddate">05/27/2020</td>
-                <td class="event-starttime">09:45 AM</td>
-                <td class="event-endtime">11:00 AM</td>
-                <td class="event-status">Under Review</td>
-            </tr>
-            <tr>
-                <td class="event-link"><a href="">Modify</a></td>
-                <td class="event-name">Write a Business Plan While Square Dancing</td>
-                <td class="event-districtoffice">Dallas/Fort Worth</td>
-                <td class="event-startdate">05/27/2020</td>
-                <td class="event-enddate">05/27/2020</td>
-                <td class="event-starttime">09:45 AM</td>
-                <td class="event-endtime">11:00 AM</td>
-                <td class="event-status">Under Review</td>
-            </tr>
+            <% }) %>
         </tbody>
     </table>
 </main>

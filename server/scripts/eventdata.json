@@ -1,9 +1,9 @@
 [
     {
-        "eventID": 1,
+        "eventID": "a60f0383-708f-40f2-bbb5-49ac31107636",
         "title": "Business Plan Writing 101",
         "description": "Come learn how to write a business plan",
-        "office": "Dallas/Fort Worth",
+        "office": "Dallas Fort Worth",
         "start_time": "20200525T094419Z",
         "end_time": "20200525T094419Z",
         "type": "in-person",
@@ -21,7 +21,7 @@
         "cost": "5"
     },
     {
-        "eventID": 2,
+        "eventID": "a60f0383-708f-40f2-bbb5-49ac31107636",
         "title": "Advanced Market Research",
         "description": "In this session, you will be given all the tools you need to conduct market research for your business idea",
         "office": "Alabama",
@@ -42,7 +42,7 @@
         "cost": "20"
     },
     {
-        "eventID": 3,
+        "eventID": "a60f0383-708f-40f2-bbb5-49ac31107636",
         "title": "Marketing for Beginners",
         "description": "Learn the most effective way to market your business with this one day seminar",
         "office": "New York",
@@ -61,5 +61,5 @@
         "contact_phone": "125-555-9121",
         "registration_url": "https://launchyournewyorkbusiness.com",
         "cost": "50"
-    },
+    }
 ]

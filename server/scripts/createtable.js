@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 
 AWS.config.update({
-  region: "us-west-1",
+  region: "us-west-2",
   endpoint: "http://localhost:8000"
 });
 
@@ -12,7 +12,7 @@ var params = {
   KeySchema: [
     { AttributeName: "eventID", KeyType: "HASH" } //Partition key
   ],
-  AttributeDefinitions: [{ AttributeName: "eventID", AttributeType: "N" }],
+  AttributeDefinitions: [{ AttributeName: "eventID", AttributeType: "S" }],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,
     WriteCapacityUnits: 10

@@ -14,11 +14,11 @@ COPY src/. /app/src
 RUN npm install
 
 # copy scripts over
-COPY scripts/. /app/scripts
+# COPY scripts/. /app/scripts
 
 # create table and load data
-RUN npm run setup
-RUN npm run add
+# RUN npm run setup
+# RUN npm run add
 
 # expose port
 EXPOSE 3000

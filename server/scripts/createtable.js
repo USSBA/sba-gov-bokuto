@@ -10,9 +10,13 @@ var dynamodb = new AWS.DynamoDB();
 var params = {
   TableName: "Events",
   KeySchema: [
-    { AttributeName: "eventID", KeyType: "HASH" } //Partition key
+    { AttributeName: "eventID", KeyType: "HASH" }, //Partition key
+    // { AttributeName: "event_status", KeyType: "RANGE" } //Secondary index
   ],
-  AttributeDefinitions: [{ AttributeName: "eventID", AttributeType: "S" }],
+  AttributeDefinitions: [
+    { AttributeName: "eventID", AttributeType: "S" },
+    // { AttributeName: "event_status", AttributeType: "S" }
+],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,
     WriteCapacityUnits: 10

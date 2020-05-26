@@ -2,7 +2,8 @@
 
 <main>
     <h1>Edit Event</h1>
-    <form action="/events/<%= event.id %>" method="put">
+    <p>Status: <%= event.status %></p>
+    <form>
         <fieldset>
             <legend>Title and Description</legend>
             <label>Title</label>
@@ -105,9 +106,14 @@
             <label for="">Cost</label>
             <input type="number" id="event-cost" name="event[cost]" value="<%= event.cost %>">
         </fieldset>
-        <input type="submit" value="Submit">
-        <input type="submit" value="Save">
+        <input type="submit" value="Submit" formaction="/events/<%= event.eventID %>/?status=submitted&_method=PUT" formmethod="post">
+        <input type="submit" value="Save" formaction="/events/<%= event.eventID %>/?status=draft&_method=PUT" formmethod="post">
+        <input type="submit" value="Delete" formaction="/events/<%= event.eventID %>?_method=DELETE" formmethod="post" formnovalidate>
     </form>
 </main>
+<script>
+    var offset = new Date().getTimezoneOffset();
+    console.log(offset/60);
+</script>
 
 <%- include ("partials/footer.ejs") %>

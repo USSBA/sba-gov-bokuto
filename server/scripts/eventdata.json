@@ -18,7 +18,8 @@
         "contact_email": "bob@underwood.com",
         "contact_phone": "817-555-9151",
         "registration_url": "https://smallbiztx.com/write-a-business-plan.html",
-        "cost": "5"
+        "cost": "5",
+        "event_status": "draft"
     },
     {
         "eventID": "a60f0383-708f-40f2-bbb5-49ac31107636",
@@ -39,7 +40,8 @@
         "contact_email": "lisa@kudrow.com",
         "contact_phone": "555-921-5555",
         "registration_url": "https://researchthat.com/learn.html",
-        "cost": "20"
+        "cost": "20",
+        "event_status": "draft"
     },
     {
         "eventID": "a60f0383-708f-40f2-bbb5-49ac31107636",
@@ -60,6 +62,7 @@
         "contact_email": "hwang@businessincubator.org",
         "contact_phone": "125-555-9121",
         "registration_url": "https://launchyournewyorkbusiness.com",
-        "cost": "50"
+        "cost": "50",
+        "event_status": "draft"
     }
 ]

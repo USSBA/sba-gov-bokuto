@@ -33,7 +33,8 @@ allEvents.forEach(function(event) {
 			contact_email: event.contact_email,
 			contact_phone: event.contact_phone,
 			registration_url: event.registration_url,
-			cost: event.cost
+			cost: event.cost,
+			event_status: event.event_status
 		}
 	};
 

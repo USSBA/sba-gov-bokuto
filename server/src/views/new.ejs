@@ -2,7 +2,7 @@
 
 <main>
     <h1>Create an Event</h1>
-    <form action="/events" method="post">
+    <form>
         <fieldset>
             <legend>Title and Description</legend>
             <label>Title</label>
@@ -94,8 +94,8 @@
             <label for="">Cost</label>
             <input type="number" id="event-cost" name="event[cost]">
         </fieldset>
-        <input type="submit" value="Submit">
-        <input type="submit" value="Save">
+        <input type="submit" value="Submit" formaction="/events?status=submitted" formmethod="post">
+        <input type="submit" value="Save" formaction="/events?status=draft" formmethod="post">
     </form>
 </main>
 <!-- Use script below to auto-load the time zone -->

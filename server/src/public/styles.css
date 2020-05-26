@@ -95,6 +95,8 @@ textarea {
 
 table {
     font-size: 14px;
+    text-align: center;
+    width: 100%;
 }
 
 tr {
@@ -103,10 +105,10 @@ tr {
 }
 
 td {
-    padding: 0.6rem;
+    padding: 0.5rem;
 }
 
-/* CLASS */
+/* IDENTIFIERS */
 
 #agency {
     width: 193px;

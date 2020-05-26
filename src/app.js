@@ -39,7 +39,7 @@ app.get('/events', function(request, response) {
 
 	dynamoDb.scan(params, (error, result) => {
 		if (error) {
-			console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
+			console.error('Unable to scan the table. Error JSON:', JSON.stringify(error, null, 2));
 			response.status(400).json({ error: 'Error retrieving Events' });
 		} else {
 			console.log('Scan succeeded:');
@@ -119,9 +119,9 @@ app.post('/events', function(request, response) {
 		}
 	};
 
-	dynamoDb.put(params, function(err, data) {
-		if (err) {
-			console.error('Unable to add item. Error JSON:', JSON.stringify(err, null, 2));
+	dynamoDb.put(params, function(error, data) {
+		if (error) {
+			console.error('Unable to add item. Error JSON:', JSON.stringify(error, null, 2));
 		} else {
 			console.log('added item:', JSON.stringify(data, null, 2));
 		}
@@ -146,9 +146,9 @@ app.get('/events/:id/edit', function(request, response) {
 		}
 	};
 
-	dynamoDb.get(params, function(err, data) {
-		if (err) {
-			console.error('Unable to get. Error:', JSON.stringify(err, null, 2));
+	dynamoDb.get(params, function(error, data) {
+		if (error) {
+			console.error('Unable to get. Error:', JSON.stringify(error, null, 2));
 		} else {
 			console.log(`Get succeeded: ${data.Item.eventID}`);
 			console.log(JSON.stringify(data.Item));
@@ -219,9 +219,9 @@ app.put('/events/:id', function(request, response) {
 		ReturnValues: 'UPDATED_NEW'
 	};
 
-	dynamoDb.update(params, function(err, data) {
-		if (err) {
-			console.error('Unable to update item.  Error JSON:', JSON.stringify(err, null, 2));
+	dynamoDb.update(params, function(error, data) {
+		if (error) {
+			console.error('Unable to update item.  Error JSON:', JSON.stringify(error, null, 2));
 		} else {
 			console.log('UpdateItem succeeded:', JSON.stringify(data, null, 2));
 		}
@@ -242,9 +242,9 @@ app.delete('/events/:id', function(request, response) {
 		}
 	};
 
-	dynamoDb.delete(params, function(err, data) {
-		if (err) {
-			console.error('Unable to delete item. Erron JSON:', JSON.stringify(err, null, 2));
+	dynamoDb.delete(params, function(error, data) {
+		if (error) {
+			console.error('Unable to delete item. Erron JSON:', JSON.stringify(error, null, 2));
 		} else {
 			console.log('DeleteItem succeeded:', JSON.stringify(data, null, 2));
 		}

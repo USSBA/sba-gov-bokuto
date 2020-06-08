@@ -8,6 +8,7 @@ const uuid = require('uuid');
 
 // Instantiate Express and Configure
 const app = express();
+app.use(awsServerlessExpressMiddleware.eventContext())
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json({ strict: false }));
 app.use(bodyParser.urlencoded({ extended: true }));

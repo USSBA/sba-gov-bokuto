@@ -2,6 +2,7 @@
 const AWS = require('aws-sdk');
 const bodyParser = require('body-parser');
 const express = require('express');
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const methodOverride = require('method-override');
 const uuid = require('uuid');
 
@@ -18,7 +19,7 @@ const { AWS_REGION, DDB_ENDPOINT, EVENTS_TABLE } = process.env;
 
 // Connect to Database
 // Development
-const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2', endpoint: 'http://localhost:8000' });
+// const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2', endpoint: 'http://localhost:8000' });
 // Production
 // const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: AWS_REGION, endpoint: DDB_ENDPOINT });
 
@@ -296,6 +297,8 @@ app.get('/events/approve', function(request, response) {
 });
 
 // Start Server
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log(`Bokuto listening at http://localhost:${port}`));
+// app.listen(port, () => console.log(`Bokuto listening at http://localhost:${port}`));
+
+module.exports = app

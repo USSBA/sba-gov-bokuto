@@ -1,17 +1,38 @@
 // Setup
-const AWS = require('aws-sdk');
-const bodyParser = require('body-parser');
-const express = require('express');
-const methodOverride = require('method-override');
-const uuid = require('uuid');
+const AWS 				= require('aws-sdk');
+const bodyParser 		= require('body-parser');
+const express 			= require('express');
+const methodOverride 	= require('method-override');
+// const passport          = require('passport');
+// const passportLocal     = require('passport-local');
+const uuid 				= require('uuid');
 
-// Instantiate Express and Configure
+// Instantiate Express
 const app = express();
+
+// Configure Express
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json({ strict: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+// app.use(require("express-session")({
+//     secret: "The Pen is Mightier Than the Sword",
+//     resave: false,
+//     saveUninitialized: false
+// }))
+
 app.set('view engine', 'ejs');
+
+// Setup Passport
+// app.use(passport.initialize())
+// app.use(passport.session())
+
+// passport.use(new LocalStrategy({
+// 	username
+// 	}
+// ))
+// passport.serializeUser(User.serializeUser())
+// passport.deserializeUser(User.deserializeUser())
 
 // Environment variables
 const { AWS_REGION, DDB_ENDPOINT, EVENTS_TABLE } = process.env;
@@ -28,6 +49,36 @@ app.get('/', function(request, response) {
 	console.log('GET: Root route accessed');
 	response.render('index');
 });
+
+// Login form
+app.get("/login", function(req, res) {
+    res.render("login")
+})
+
+// Handle user login
+// Utilize middleware
+// // <-- begin of route --- middleware --- end of route (handler) -->
+// app.post("/login", passport.authenticate("local", {
+//     successRedirect: "/secret",
+//     failureRedirect: "/login"
+// }),
+// // end of route (handler)
+//     function(req, res) {
+// })
+
+// Middleware to test if logged in
+// function isLoggedIn(req, res, next) {
+//     if(req.isAuthenticated()){
+//         return next()
+//     }
+//     res.redirect("/login")
+// }
+
+// // Logout route
+// app.get("/logout", function(req, res) {
+//     req.logout()
+//     res.redirect("/")
+// })
 
 // GET: List all events
 app.get('/events', function(request, response) {

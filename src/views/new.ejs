@@ -5,11 +5,11 @@
     <form>
         <fieldset>
             <legend>Title and Description</legend>
-            <label>Title</label>
+            <label>Title<span class="required">*</span></label>
             <input type="text" id="sample-name-form" name="event[title]" required>
-            <label>Description</label>
+            <label>Description<span class="required">*</span></label>
             <textarea rows="5" name="event[description]" required></textarea>
-            <label>District Office</label>
+            <label>District Office<span class="required">*</span></label>
             <select name="event[office]" required>
                 <% var options = ["Alabama", "Alaska", "Arizona", "Arkansas", "Baltimore", "Boise", "Buffalo", "Cleveland", "Colorado", "Columbus", "Connecticut", 
                                "Dallas Fort Worth", "Delaware", "Eastern Pennsylvania", "El Paso", "Fresno", "Georgia", "Hawaii", "Houston", "Illinois", "Indiana", 
@@ -26,15 +26,15 @@
         </fieldset>
         <fieldset>
             <legend>Time and Date</legend>
-            <label>Start Date</label>
+            <label>Start Date<span class="required">*</span></label>
             <input type="date" name="event[start_date]" required>
-            <label>End Date</label>
+            <label>End Date<span class="required">*</span></label>
             <input type="date" name="event[end_date]" required>
-            <label>Start Time</label>
+            <label>Start Time<span class="required">*</span></label>
             <input type="time" name="event[start_time]" required>
-            <label>End Time</label>
+            <label>End Time<span class="required">*</span></label>
             <input type="time" name="event[end_time]" required>
-            <label>Timezone</label>
+            <label>Timezone<span class="required">*</span></label>
             <select name="event[timezone]" required>
                 <option value="Eastern Daylight Time (UTC -4)">Eastern Daylight Time (UTC -4)</option>
                 <option value="Central Daylight Time (UTC -5)">Central Daylight Time (UTC -5)</option>
@@ -44,11 +44,6 @@
                 <option value="Alaska Daylight Time (UTC -8)">Alaska Daylight Time (UTC -8)</option>
                 <option value="Hawaii Standard Time (UTC -10)">Hawaii Standard Time (UTC -10)</option>                 
             </select>
-            <label>Type of Event?</label>
-            <select name="event[type]">
-                <option value="in-person" selected>In Person</option>
-                <option value="online">Online</option>
-            </select>
             <label>Recurring Event?</label>
             <select name="event[recurring]">
                 <option value="onetime">No</option>
@@ -57,16 +52,21 @@
         </fieldset>
         <fieldset>
             <legend>Location</legend>
-            <label for="">Name of Location</label>
-            <input type="text" id="" name="event[location_name]" required>
-            <label for="">Street 1</label>
-            <input type="text" id="" name="event[address_street_1]" required>
+            <label>Type of Event?</label>
+            <select id="typeofevent" name="event[type]">
+                <option value="in-person" selected>In Person</option>
+                <option value="online">Online</option>
+            </select>
+            <label for="">Name of Location<span class="required">*</span></label>
+            <input class="location" type="text" id="" name="event[location_name]" required>
+            <label for="">Street 1<span class="required">*</span></label>
+            <input class="location" type="text" id="" name="event[address_street_1]" required>
             <label for="">Street 2</label>
-            <input type="text" id="" name="event[address_street_2]">
-            <label for="">City</label>
-            <input type="text" id="" name="event[address_city]" required>
-            <label for="">State/Province</label>
-            <select name="event[address_state]" required>
+            <input class="location" type="text" id="" name="event[address_street_2]">
+            <label for="">City<span class="required">*</span></label>
+            <input class="location" type="text" id="" name="event[address_city]" required>
+            <label for="">State/Province<span class="required">*</span></label>
+            <select class="location" name="event[address_state]" required>
                 <% var options = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
                                   'District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois',
                                   'Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan',
@@ -78,8 +78,8 @@
                     <option value="<%= options[i] %>"><%= options[i] %></option>
                 <% } %>
             </select>
-            <label for="">Postal Code</label>
-            <input type="number" id="" name="event[address_zip]" required>
+            <label for="">Postal Code<span class="required">*</span></label>
+            <input class="location" type="text" pattern="[0-9]{5}" id="" name="event[address_zip]" required>
         </fieldset>
         <fieldset>
             <legend>Contact Information</legend>
@@ -94,14 +94,36 @@
             <label for="">Cost</label>
             <input type="number" id="event-cost" name="event[cost]">
         </fieldset>
-        <input type="submit" value="Submit" formaction="/events?status=submitted" formmethod="post">
-        <input type="submit" value="Save" formaction="/events?status=draft" formmethod="post">
+        <input type="submit" value="Submit for Approval" formaction="/events?status=submitted" formmethod="post">
+        <input type="submit" value="Save as Draft" formaction="/events?status=draft" formmethod="post">
     </form>
 </main>
-<!-- Use script below to auto-load the time zone -->
 <script>
     var offset = new Date().getTimezoneOffset();
     console.log(offset/60);
+
+    var locationInputs = document.getElementsByClassName("location")
+
+    var typeOfEvent = document.getElementById('typeofevent')
+    typeOfEvent.addEventListener('change', (event) => {
+        if (event.target.value === "in-person") {
+            // console.log("In Person event detected")
+            for (let inputElement of locationInputs) {
+                inputElement.required = true
+                inputElement.disabled = false
+                // console.log(inputElement)
+            }
+        }
+
+        if (event.target.value === "online") {
+            // console.log("Online event detected")
+            for (let inputElement of locationInputs) {
+                inputElement.required = false
+                inputElement.disabled = true
+                // console.log(inputElement)
+            }
+        }
+    })
 </script>
 
 <%- include ("partials/footer.ejs") %>

@@ -108,11 +108,25 @@ td {
     padding: 0.5rem;
 }
 
-/* IDENTIFIERS */
-
-#agency {
+/* CLASSES */
+.logo {
     width: 193px;
 }
+
+.login-form {
+    width: 40%;
+    min-width: 320px;
+    max-width: 475px;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+}
+
+.required {
+    color: red;
+}
+
+/* IDENTIFIERS */
 
 #event {
     border: 1px solid #002e6d;
@@ -132,8 +146,16 @@ td {
       font-size: 0.9rem;
     }
 
-    #agency {
-        width: 121px;
+    .horizontal {
+        display: none;
+    }
+    
+    .logo {
+        width: 50px;
+    }
+
+    .stacked {
+        display: block;
     }
 }
   
@@ -149,9 +171,18 @@ td {
         font-size: 1rem;
     }
 
-    #agency {
-        width: 139px;
+    .horizontal {
+        display: none;
     }
+
+    .logo {
+        width: 60px;
+    }
+
+    .stacked {
+        display: block;
+    }
+
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -166,8 +197,16 @@ td {
         font-size: 1.1rem;
     }
 
-    #agency {
-        width: 157px;
+    .horizontal {
+        display: block;
+    }
+
+    .logo {
+        width: 121px;
+    }
+
+    .stacked {
+        display: none;
     }
 }
 
@@ -183,8 +222,16 @@ td {
         font-size: 1.2rem;
     }
 
-    #agency {
-        width: 139px;
+    .horizontal {
+        display: block;;
+    }
+
+    .logo {
+        width: 130px;
+    }
+
+    .stacked {
+        display: none;
     }
 }
 
@@ -200,7 +247,15 @@ td {
         font-size: 1.3rem;
     }
 
-    #agency {
-        width: 157px;
+    .horizontal {
+        display: block;
+    }
+
+    .logo {
+        width: 139px;
+    }
+
+    .stacked {
+        display: none;
     }
 }

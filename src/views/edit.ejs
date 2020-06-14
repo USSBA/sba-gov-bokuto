@@ -28,6 +28,11 @@
                     <option value="<%= options[i] %>" <%= officeSelected %>><%= options[i] %></option>
                 <% } %>
             </select>
+            <label>Type of Event?</label>
+            <select id="typeofevent" name="event[event_type]">
+                <option value="in-person" <%= event.event_type == 'in-person' ? 'selected' : ''%>>In Person</option>
+                <option value="online" <%= event.event_type == 'online' ? 'selected' : ''%>>Online</option>
+            </select>
         </fieldset>
         <fieldset>
             <legend>Time and Date</legend>
@@ -69,21 +74,16 @@
                 <% } %>       
             </select>
             <label class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" for="enddate">When will events end?</label>
-            <input class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="enddate" type="date" value="<%= event.recurring_end_date %>" name="event[recurring_end_date]">
+            <input class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="enddate" name="event[recurring_end_date]" type="date" value="<%= event.recurring_end_date %>">
         </fieldset>
-        <fieldset>
+        <fieldset id="location">
             <legend>Location</legend>
-            <label>Type of Event?</label>
-            <select id="typeofevent" name="event[type]">
-                <option value="in-person" <%= event.type == 'in-person' ? 'selected' : ''%>>In Person</option>
-                <option value="online" <%= event.type == 'online' ? 'selected' : ''%>>Online</option>
-            </select>
             <label for="">Name of Location<span class="required">*</span></label>
             <input class="location" type="text" id="" name="event[location_name]" value="<%= event.location_name %>" required>
             <label for="">Street 1<span class="required">*</span></label>
             <input class="location" type="text" id="" name="event[address_street_1]" value="<%= event.address_street_1 %>" required>
             <label for="">Street 2</label>
-            <input class="location2" type="text" id="" name="event[address_street_2]" value="<%= event.address_street_2 %>">
+            <input type="text" id="" name="event[address_street_2]" value="<%= event.address_street_2 %>">
             <label for="">City<span class="required">*</span></label>
             <input class="location" type="text" id="" name="event[address_city]" value="<%= event.address_city %>" required>
             <label for="">State/Province<span class="required">*</span></label>
@@ -104,7 +104,7 @@
                 <% } %>
             </select>
             <label for="">Postal Code<span class="required">*</span></label>
-            <input class="location" type="text" pattern="[0-9]{5}" id="" value="<%= event.address_zip %>" name="event[address_zip]" required>
+            <input class="location" type="text" pattern="[0-9]{5}" id="" name="event[address_zip]" value="<%= event.address_zip %>" required>
         </fieldset>
         <fieldset>
             <legend>Contact Information</legend>
@@ -129,35 +129,37 @@
     var offset = new Date().getTimezoneOffset();
     console.log(offset/60);
 
+    var locationFieldset = document.getElementById('location')
     var locationInputs = document.getElementsByClassName('location')
 
     var typeOfEvent = document.getElementById('typeofevent')
 
-    if (typeOfEvent.options[typeOfEvent.selectedIndex].text === "in-person") {
-        // console.log("Online event loaded")
+    if (typeOfEvent.options[typeOfEvent.selectedIndex].text === "Online") {
+        console.log("Online event loaded")
+        locationFieldset.classList.add("hidden")
         for (let inputElement of locationInputs) {
                 inputElement.required = false
-                inputElement.disabled = true
-                // console.log(inputElement)
+                console.log(inputElement)
         }
     }
 
     typeOfEvent.addEventListener('change', (event) => {
         if (event.target.value === "in-person") {
-            // console.log("In Person event detected")
+            console.log("In Person event detected")
+            locationFieldset.classList.remove("hidden")
             for (let inputElement of locationInputs) {
                 inputElement.required = true
-                inputElement.disabled = false
-                // console.log(inputElement)
+                console.log(inputElement)
             }
         }
 
         if (event.target.value === "online") {
-            // console.log("Online event detected")
+            console.log("Online event detected")
+            locationFieldset.classList.add("hidden")
             for (let inputElement of locationInputs) {
                 inputElement.required = false
-                inputElement.disabled = true
-                // console.log(inputElement)
+                inputElement.value = ""
+                console.log(inputElement)
             }
         }
     })

@@ -128,7 +128,7 @@ app.post('/events', function(request, response) {
 		start_time,
 		end_time,
 		timezone,
-		type,
+		event_type,
 		recurring,
 		recurring_interval,
 		recurring_end_date,
@@ -161,7 +161,7 @@ app.post('/events', function(request, response) {
 			start_time: start_time,
 			end_time: end_time,
 			timezone: timezone,
-			type: type,
+			event_type: event_type,
 			recurring: recurring,
 			recurring_interval: recurring_interval,
 			recurring_end_date: recurring_end_date,
@@ -231,7 +231,7 @@ app.put('/events/:id', function(request, response) {
 		start_time,
 		end_time,
 		timezone,
-		type,
+		event_type,
 		recurring,
 		recurring_interval,
 		recurring_end_date,
@@ -248,6 +248,19 @@ app.put('/events/:id', function(request, response) {
 		cost
 	} = request.body.event;
 
+	if (event_type == "online") {
+		address_street_1 = "";
+		address_street_2 = ""
+		address_city = ""
+		address_state = ""
+		address_zip = ""
+	}
+
+	if (recurring = "onetime") {
+		recurring_interval = ""
+		recurring_end_date = ""
+	}
+
 	var params = {
 		TableName: 'Events',
 		Key: {
@@ -255,8 +268,6 @@ app.put('/events/:id', function(request, response) {
 		},
 		UpdateExpression:
 			'set title = :t, description = :des, office = :off, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, recurring_interval = :ri, recurring_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :azip, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, event_status = :status',
-		// ConditionExpression:
-		// 	'attribute_exists = :az',
 		ExpressionAttributeValues: {
 			':t'     : title,
 			':des'   : description,
@@ -266,7 +277,7 @@ app.put('/events/:id', function(request, response) {
             ':st'    : start_time,
             ':et'    : end_time,
             ':tz'    : timezone,
-            ':ty'    : type,
+            ':ty'    : event_type,
 			':r'     : recurring,
 			':ri'    : recurring_interval,
 			':red'   : recurring_end_date,

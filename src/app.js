@@ -3,6 +3,7 @@ const AWS 				= require('aws-sdk');
 const bodyParser 		= require('body-parser');
 const express 			= require('express');
 const methodOverride 	= require('method-override');
+const moment 			= require('moment');
 // const passport          = require('passport');
 // const passportLocal     = require('passport-local');
 const uuid 				= require('uuid');
@@ -116,7 +117,8 @@ app.get('/events', function(request, response) {
 // POST: Create a new event
 app.post('/events', function(request, response) {
     console.log('POST: Create new event route accessed');
-    console.log(request.query.status)
+	console.log(request.query.status)
+	console.log(request.body.event)
 	var {
 		title,
 		description,
@@ -128,6 +130,8 @@ app.post('/events', function(request, response) {
 		timezone,
 		type,
 		recurring,
+		interval,
+		recurrence_end_date,
 		location_name,
 		address_street_1,
 		address_street_2,
@@ -141,6 +145,10 @@ app.post('/events', function(request, response) {
 		cost
 	} = request.body.event;
 
+	console.log("Recurring: " + recurring)
+	console.log("Interval: " + interval)
+	console.log("Recurrence End Date: " + recurrence_end_date)
+	
 	var params = {
 		TableName: 'Events',
 		Item: {
@@ -155,6 +163,8 @@ app.post('/events', function(request, response) {
 			timezone: timezone,
 			type: type,
 			recurring: recurring,
+			interval: interval,
+			recurrence_end_date: recurrence_end_date,
 			location_name: location_name,
 			address_street_1: address_street_1,
 			address_street_2: address_street_2,
@@ -223,6 +233,8 @@ app.put('/events/:id', function(request, response) {
 		timezone,
 		type,
 		recurring,
+		interval,
+		recurrence_end_date,
 		location_name,
 		address_street_1,
 		address_street_2,
@@ -242,7 +254,7 @@ app.put('/events/:id', function(request, response) {
 			eventID: request.params.id
 		},
 		UpdateExpression:
-			'set title = :t, description = :d, office = :o, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :az, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, event_status = :stat',
+			'set title = :t, description = :d, office = :o, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, interval = :i, recurrence_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :az, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, event_status = :stat',
 		ExpressionAttributeValues: {
 			':t':   title,
 			':d':   description,
@@ -253,7 +265,9 @@ app.put('/events/:id', function(request, response) {
             ':et':  end_time,
             ':tz':  timezone,
             ':ty':  type,
-            ':r':   recurring,
+			':r':   recurring,
+			':i':   interval,
+			':red': recurrence_end_date,
             ':ln':  location_name,
             ':as1': address_street_1,
             ':as2': address_street_2,

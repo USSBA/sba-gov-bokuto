@@ -43,7 +43,7 @@
             <select name="event[timezone]" required>
                 <% var options = ["Eastern Daylight Time (UTC -4)","Central Daylight Time (UTC -5)","Mountain Daylight Time (UTC -6)",
                                   "Mountain Standard Time (UTC -7)","Pacific Daylight Time (UTC -7)","Alaska Daylight Time (UTC -8)",
-                                  "Hawaii Standard Time (UTC -10)"] %>
+                                  "Hawaii Standard Time (UTC -10)", "Samoa Standard Time (UTC -11)", "Chamorro Standard Time (UTC +10)"] %>
                 <% for (var i = 0; i < options.length; i++) { %>
                     <% var timezoneSelected = "" %>
                     <% if (options[i] == event.timezone) { %>
@@ -52,11 +52,24 @@
                     <option value="<%= options[i] %>" <%= timezoneSelected %>><%= options[i] %></option>
                 <% } %>
             </select>
-            <label>Recurring Event?</label>
-            <select name="event[recurring]">
+            <label for="eventtoggle">Recurring Event?</label>
+            <select id="eventtoggle" name="event[recurring]">
                 <option value="onetime" <%= event.recurring == 'onetime' ? 'selected' : ''%>>No</option>
                 <option value="recurring" <%= event.recurring == 'recurring' ? 'selected' : ''%>>Yes</option>
             </select>
+            <label class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" for="interval">How often?</label>
+            <select class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="interval" name="event[interval]">
+                <% var options = ["Daily", "Weekly", "Monthly"] %>
+                <% for (var i = 0; i < options.length; i++) { %>
+                    <% var recurrenceSelected = "" %>
+                    <% if (options[i] == event.interval) { %>
+                        <% recurrenceSelected = "selected" %>
+                    <% } %>
+                    <option value="<%= options[i] %>" <%= recurrenceSelected %>><%= options[i] %></option>
+                <% } %>       
+            </select>
+            <label class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" for="enddate">When will events end?</label>
+            <input class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="enddate" type="date" value="<%= event.recurrence_end_date %>">
         </fieldset>
         <fieldset>
             <legend>Location</legend>
@@ -116,7 +129,7 @@
     var offset = new Date().getTimezoneOffset();
     console.log(offset/60);
 
-    var locationInputs = document.getElementsByClassName("location")
+    var locationInputs = document.getElementsByClassName('location')
 
     var typeOfEvent = document.getElementById('typeofevent')
 
@@ -145,6 +158,26 @@
                 inputElement.required = false
                 inputElement.disabled = true
                 // console.log(inputElement)
+            }
+        }
+    })
+
+    var recurringInputs = document.getElementsByClassName('recurring')
+    console.log(recurringInputs)
+    var recurringToggle = document.getElementById('eventtoggle')
+    console.log(recurringToggle)
+    recurringToggle.addEventListener('change', (event) => {
+        if (event.target.value == "recurring") {
+            console.log("Yes selected!")
+            for (let inputElement of recurringInputs) {
+                inputElement.classList.remove("hidden")
+            }
+        }
+
+        if (event.target.value == "onetime") {
+            console.log("No selected!")
+            for (let inputElement of recurringInputs) {
+                inputElement.classList.add("hidden")
             }
         }
     })

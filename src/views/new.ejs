@@ -2,6 +2,7 @@
 
 <main>
     <h1>Create an Event</h1>
+    <p>We think your timezone is: <span id="timezoneguess"></span></p>
     <form>
         <fieldset>
             <legend>Title and Description</legend>
@@ -34,21 +35,32 @@
             <input type="time" name="event[start_time]" required>
             <label>End Time<span class="required">*</span></label>
             <input type="time" name="event[end_time]" required>
-            <label>Timezone<span class="required">*</span></label>
-            <select name="event[timezone]" required>
+            <label>Timezone</label>
+            <input id="timezone" type="text" name="event[timezone]" disabled>
+            <!-- <select name="event[timezone]" required>
                 <option value="Eastern Daylight Time (UTC -4)">Eastern Daylight Time (UTC -4)</option>
                 <option value="Central Daylight Time (UTC -5)">Central Daylight Time (UTC -5)</option>
                 <option value="Mountain Daylight Time (UTC -6)">Mountain Daylight Time (UTC -6)</option>
                 <option value="Mountain Standard Time (UTC -7)">Mountain Standard Time (UTC -7)</option>
                 <option value="Pacific Daylight Time (UTC -7)">Pacific Daylight Time (UTC -7)</option>
                 <option value="Alaska Daylight Time (UTC -8)">Alaska Daylight Time (UTC -8)</option>
-                <option value="Hawaii Standard Time (UTC -10)">Hawaii Standard Time (UTC -10)</option>                 
-            </select>
-            <label>Recurring Event?</label>
-            <select name="event[recurring]">
-                <option value="onetime">No</option>
+                <option value="Hawaii Standard Time (UTC -10)">Hawaii Standard Time (UTC -10)</option>  
+                <option value="Samoa Standard Time (UTC -11)">Samoa Standard Time</option>
+                <option value="Chamorro Standard Time (UTC +10)">Chamorro Standard Time</option>               
+            </select> -->
+            <label for="eventtoggle">Recurring Event?</label>
+            <select id="eventtoggle" name="event[recurring]">
+                <option value="onetime" selected>No</option>
                 <option value="recurring">Yes</option>
             </select>
+            <label class="recurring hidden" for="interval">How often?</label>
+            <select class="recurring hidden" id="interval" name="event[interval]">
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>          
+            </select>
+            <label class="recurring hidden" for="enddate">When will events end?</label>
+            <input class="recurring hidden" id="enddate" type="date"  name="event[recurrence_end_date]">
         </fieldset>
         <fieldset>
             <legend>Location</legend>
@@ -99,10 +111,13 @@
     </form>
 </main>
 <script>
-    var offset = new Date().getTimezoneOffset();
-    console.log(offset/60);
+    var timezoneDisplay = document.getElementById('timezone')
+    timezoneDisplay.value = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    var locationInputs = document.getElementsByClassName("location")
+    var offset = new Date().getTimezoneOffset();
+    console.log("Timezone Offset: " + String(offset/60))
+    
+    var locationInputs = document.getElementsByClassName('location')
 
     var typeOfEvent = document.getElementById('typeofevent')
     typeOfEvent.addEventListener('change', (event) => {
@@ -121,6 +136,26 @@
                 inputElement.required = false
                 inputElement.disabled = true
                 // console.log(inputElement)
+            }
+        }
+    })
+
+    var recurringInputs = document.getElementsByClassName('recurring')
+    console.log(recurringInputs)
+    var recurringToggle = document.getElementById('eventtoggle')
+    console.log(recurringToggle)
+    recurringToggle.addEventListener('change', (event) => {
+        if (event.target.value == "recurring") {
+            console.log("Yes selected!")
+            for (let inputElement of recurringInputs) {
+                inputElement.classList.remove("hidden")
+            }
+        }
+
+        if (event.target.value == "onetime") {
+            console.log("No selected!")
+            for (let inputElement of recurringInputs) {
+                inputElement.classList.add("hidden")
             }
         }
     })

@@ -109,6 +109,10 @@ td {
 }
 
 /* CLASSES */
+.hidden {
+    display: none;
+}
+
 .logo {
     width: 193px;
 }

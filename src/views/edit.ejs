@@ -58,18 +58,18 @@
                 <option value="recurring" <%= event.recurring == 'recurring' ? 'selected' : ''%>>Yes</option>
             </select>
             <label class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" for="interval">How often?</label>
-            <select class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="interval" name="event[interval]">
+            <select class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="interval" name="event[recurring_interval]">
                 <% var options = ["Daily", "Weekly", "Monthly"] %>
                 <% for (var i = 0; i < options.length; i++) { %>
                     <% var recurrenceSelected = "" %>
-                    <% if (options[i] == event.interval) { %>
+                    <% if (options[i] == event.recurring_interval) { %>
                         <% recurrenceSelected = "selected" %>
                     <% } %>
                     <option value="<%= options[i] %>" <%= recurrenceSelected %>><%= options[i] %></option>
                 <% } %>       
             </select>
             <label class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" for="enddate">When will events end?</label>
-            <input class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="enddate" type="date" value="<%= event.recurrence_end_date %>">
+            <input class="recurring <%= event.recurring == 'recurring' ? '' : 'hidden'%>" id="enddate" type="date" value="<%= event.recurring_end_date %>" name="event[recurring_end_date]">
         </fieldset>
         <fieldset>
             <legend>Location</legend>
@@ -83,7 +83,7 @@
             <label for="">Street 1<span class="required">*</span></label>
             <input class="location" type="text" id="" name="event[address_street_1]" value="<%= event.address_street_1 %>" required>
             <label for="">Street 2</label>
-            <input class="location" type="text" id="" name="event[address_street_2]" value="<%= event.address_street_2 %>">
+            <input class="location2" type="text" id="" name="event[address_street_2]" value="<%= event.address_street_2 %>">
             <label for="">City<span class="required">*</span></label>
             <input class="location" type="text" id="" name="event[address_city]" value="<%= event.address_city %>" required>
             <label for="">State/Province<span class="required">*</span></label>
@@ -104,7 +104,7 @@
                 <% } %>
             </select>
             <label for="">Postal Code<span class="required">*</span></label>
-            <input class="location" type="text" pattern="[0-9]{5}" id="" value="<%= event.address_zip %>" required>
+            <input class="location" type="text" pattern="[0-9]{5}" id="" value="<%= event.address_zip %>" name="event[address_zip]" required>
         </fieldset>
         <fieldset>
             <legend>Contact Information</legend>
@@ -133,7 +133,7 @@
 
     var typeOfEvent = document.getElementById('typeofevent')
 
-    if (typeOfEvent.options[typeOfEvent.selectedIndex].text) {
+    if (typeOfEvent.options[typeOfEvent.selectedIndex].text === "in-person") {
         // console.log("Online event loaded")
         for (let inputElement of locationInputs) {
                 inputElement.required = false

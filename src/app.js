@@ -130,8 +130,8 @@ app.post('/events', function(request, response) {
 		timezone,
 		type,
 		recurring,
-		interval,
-		recurrence_end_date,
+		recurring_interval,
+		recurring_end_date,
 		location_name,
 		address_street_1,
 		address_street_2,
@@ -146,9 +146,9 @@ app.post('/events', function(request, response) {
 	} = request.body.event;
 
 	console.log("Recurring: " + recurring)
-	console.log("Interval: " + interval)
-	console.log("Recurrence End Date: " + recurrence_end_date)
-	
+	console.log("Interval: " + recurring_interval)
+	console.log("Recurrence End Date: " + recurring_end_date)
+
 	var params = {
 		TableName: 'Events',
 		Item: {
@@ -163,8 +163,8 @@ app.post('/events', function(request, response) {
 			timezone: timezone,
 			type: type,
 			recurring: recurring,
-			interval: interval,
-			recurrence_end_date: recurrence_end_date,
+			recurring_interval: recurring_interval,
+			recurring_end_date: recurring_end_date,
 			location_name: location_name,
 			address_street_1: address_street_1,
 			address_street_2: address_street_2,
@@ -233,8 +233,8 @@ app.put('/events/:id', function(request, response) {
 		timezone,
 		type,
 		recurring,
-		interval,
-		recurrence_end_date,
+		recurring_interval,
+		recurring_end_date,
 		location_name,
 		address_street_1,
 		address_street_2,
@@ -254,32 +254,34 @@ app.put('/events/:id', function(request, response) {
 			eventID: request.params.id
 		},
 		UpdateExpression:
-			'set title = :t, description = :d, office = :o, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, interval = :i, recurrence_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :az, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, event_status = :stat',
+			'set title = :t, description = :des, office = :off, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, recurring_interval = :ri, recurring_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :azip, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, event_status = :status',
+		// ConditionExpression:
+		// 	'attribute_exists = :az',
 		ExpressionAttributeValues: {
-			':t':   title,
-			':d':   description,
-            ':o':   office,
-            ':sd':  start_date,
-            ':ed':  end_date,
-            ':st':  start_time,
-            ':et':  end_time,
-            ':tz':  timezone,
-            ':ty':  type,
-			':r':   recurring,
-			':i':   interval,
-			':red': recurrence_end_date,
-            ':ln':  location_name,
-            ':as1': address_street_1,
-            ':as2': address_street_2,
-            ':ac' : address_city,
-            ':as' : address_state,
-            ':az' : address_zip,
-            ':cn' : contact_name,
-            ':ce' : contact_email,
-            ':cp' : contact_phone,
-            ':url': registration_url,
-            ':cost': cost,
-            ':stat': request.query.status
+			':t'     : title,
+			':des'   : description,
+            ':off'   : office,
+            ':sd'    : start_date,
+            ':ed'    : end_date,
+            ':st'    : start_time,
+            ':et'    : end_time,
+            ':tz'    : timezone,
+            ':ty'    : type,
+			':r'     : recurring,
+			':ri'    : recurring_interval,
+			':red'   : recurring_end_date,
+            ':ln'    : location_name,
+            ':as1'   : address_street_1,
+            ':as2'   : address_street_2,
+            ':ac'    : address_city,
+            ':as'    : address_state,
+            ':azip'  : address_zip,
+            ':cn'    : contact_name,
+            ':ce'    : contact_email,
+            ':cp'    : contact_phone,
+            ':url'   : registration_url,
+            ':cost'  : cost,
+            ':status': request.query.status
 		},
 		ReturnValues: 'UPDATED_NEW'
 	};

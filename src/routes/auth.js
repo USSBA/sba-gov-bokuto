@@ -1,5 +1,5 @@
 const express = require('express')
-const usersRepo = require('../../repositories/users')
+const usersRepo = require('../repositories/users')
 
 const router = express.Router()
 
@@ -27,14 +27,14 @@ router.post('/signup', async (req, res) => {
 	req.session.userId = user.id;
 
 	console.log("New user registered")
-	res.redirect('/');
+	res.redirect('index');
 });
   
 router.get('/signout', (req, res) => {
 	req.session = null;
 
 	console.log("User logged out")
-	res.redirect('/');
+	res.redirect('index');
 });
   
 router.get('/signin', (req, res) => {
@@ -56,7 +56,7 @@ router.post('/signin', async (req, res) => {
 
 	req.session.userId = user.id;
 
-	res.render('/');
+	res.render('index');
 });
 
 module.exports = router;

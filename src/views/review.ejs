@@ -120,9 +120,8 @@
             <label for="">Cost</label>
             <input type="number" id="event-cost" name="event[cost]" value="<%= event.cost %>">
         </fieldset>
-        <input type="submit" value="Submit for Approval" formaction="/events/<%= event.eventID %>/?status=submitted&_method=PUT" formmethod="post">
-        <input type="submit" value="Save as Draft" formaction="/events/<%= event.eventID %>/?status=draft&_method=PUT" formmethod="post">
-        <input type="submit" value="Cancel this Event" formaction="/events/<%= event.eventID %>?status=canceled&_method=PUT" formmethod="post" formnovalidate>
+        <input type="submit" value="Approve this Event" formaction="/events/<%= event.eventID %>/?status=approved&_method=PUT" formmethod="post">
+        <input type="submit" value="Cancel this Event" formaction="/events/<%= event.eventID %>/?status=canceled&_method=PUT" formmethod="post" formnovalidate>
         <input type="submit" value="Delete this Event" formaction="/events/<%= event.eventID %>?_method=DELETE" formmethod="post" formnovalidate>
     </form>
 </main>

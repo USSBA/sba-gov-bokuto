@@ -17,7 +17,7 @@
         <tbody>
             <% events.forEach(function(event) { %>
             <tr>
-                <td class="event-link"><a href="/events/<%= event.id %>/edit">Approve</a>
+                <td class="event-link"><a href="/events/<%= event.id %>/review">Approve</a>
                 <td class="event-name"><%= event.title %></td>
                 <td class="event-districtoffice"><%= event.office %></td>
                 <td class="event-startdate"><%= event.start_date %></td>

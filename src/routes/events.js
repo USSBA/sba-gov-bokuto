@@ -178,6 +178,28 @@ router.get('/events/:id/edit', requireAuth, function(request, response) {
 	});
 });
 
+// GET: Form to review a single event
+router.get('/events/:id/review', requireAuth, function(request, response) {
+	console.log('GET: Show the form to edit a single event');
+	var params = {
+		TableName: EVENTS_TABLE,
+		Key: {
+            userID: request.session.userId,
+            eventID: request.params.id,
+		}
+	};
+
+	dynamoDb.get(params, function(error, data) {
+		if (error) {
+			console.error('Unable to get. Error:', JSON.stringify(error, null, 2));
+		} else {
+			console.log(`Get succeeded: ${data.Item.eventID}`);
+			console.log(JSON.stringify(data.Item));
+			response.render('review', { event: data.Item });
+		}
+	});
+});
+
 // PUT: Update a single event
 router.put('/events/:id', requireAuth, function(request, response) {
     console.log('PUT: Update a single event');
@@ -298,10 +320,12 @@ router.get('/events/approve', requireAuth, function(request, response) {
 	console.log('GET: Approval listview route accessed');
 	const params = {
         TableName: EVENTS_TABLE,
-        IndexName: 'office-status-index',
-        KeyConditionExpression: 'office = :off',
+        ProjectionExpress: "eventID, title, office, start_date, start_time, eventStatus",
+        IndexName: 'office-eventStatus-index',
+        KeyConditionExpression: 'office = :off and eventStatus = :evs',
         ExpressionAttributeValues: {
-            ':off': request.session.userOffice
+            ':off': request.session.userOffice,
+            ':evs': "submitted"
         },
 
     };

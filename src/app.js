@@ -7,9 +7,6 @@ const methodOverride 	= require('method-override');
 const moment 			= require('moment');
 const uuid 				= require('uuid');
 
-// Development
-const usersRepo = require('./repositories/users');
-
 // Environment Variables
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config()
@@ -22,21 +19,27 @@ AWS.config.update({
 	secretAccessKey: AWS_SECRET_ACCESS_KEY
 })
 
+// Routes
+const authRouter = require('./routes/admin/auth')
+
 // Instantiate Express
 const app = express();
 
 // Configure Express
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json({ strict: false }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+app.use(express.static(__dirname + '/public'))
+app.use(bodyParser.json({ strict: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 app.use(
 	cookieSession({
 	  keys: [SESSION_SECRET]
 	})
 );
+app.use(authRouter)
 
 app.set('view engine', 'ejs');
+
+
 
 // Connect to Database
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -58,61 +61,6 @@ dynamoDb.scan(params, function(err, data) {
 app.get('/', function(request, response) {
 	console.log('GET: Root route accessed');
 	response.render('index');
-});
-
-app.get("/signup", function(req, res) {
-	res.render("signup", { userid: req.session.userId, errormessage: "" })
-})
-
-app.post('/signup', async (req, res) => {
-	const { email, password, passwordConfirmation } = req.body;
-
-	const existingUser = await usersRepo.getOneBy({ email });
-	if (existingUser) {
-		return res.render('signup', { errormessage: "Email in use" })
-	}
-
-	if (password !== passwordConfirmation) {
-		return res.render('signup', { errormessage: "Passwords must match" })
-	}
-
-	// Create a user in our user repo to represent this person
-	const user = await usersRepo.create({ email, password });
-
-	// Store the id of that user inside the users cookie
-	req.session.userId = user.id;
-
-	console.log("New user registered")
-	res.redirect('/');
-});
-  
-app.get('/signout', (req, res) => {
-	req.session = null;
-
-	console.log("User logged out")
-	res.redirect('/');
-});
-  
-app.get('/signin', (req, res) => {
-	res.render('signin', { errormessage: "" })
-});
-  
-app.post('/signin', async (req, res) => {
-	const { email, password } = req.body;
-
-	const user = await usersRepo.getOneBy({ email });
-
-	if (!user) {
-		return res.render('signin', { errormessage: "Email not found" })
-	}
-
-	if (user.password !== password) {
-		return res.render('signin', { errormessage: "Invalid password" })
-	}
-
-	req.session.userId = user.id;
-
-	res.render('/');
 });
 
 // GET: List all events

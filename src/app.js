@@ -40,8 +40,6 @@ app.use(
 const authRouter = require('./routes/auth')
 const eventRouter = require('./routes/events')
 
-
-
 app.use(authRouter)
 app.use(eventRouter)
 
@@ -67,17 +65,13 @@ dynamoDb.scan(params, function(err, data) {
     }
 })
 
-
-
-
 // Landing page with instructions
 app.get('/', requireAuth, function(request, response) {
 	console.log('GET: Root route accessed');
 	response.render('index');
 });
 
-
 // Start Server
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log(`Bokuto listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Bokuto slicing at http://localhost:${port}`));

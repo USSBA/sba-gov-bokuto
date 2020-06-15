@@ -23,18 +23,19 @@ router.post('/signup', async (req, res) => {
 	const user = await usersRepo.create({ email, password, office
 	 });
 
-	// Store the id of that user inside the users cookie
+	// Store the id and office of that user inside the users cookie
 	req.session.userId = user.id;
+	req.session.userOffice = user.office;
 
 	console.log("New user registered")
-	res.redirect('index');
+	res.render('index');
 });
   
 router.get('/signout', (req, res) => {
 	req.session = null;
 
 	console.log("User logged out")
-	res.redirect('index');
+	res.render('signin');
 });
   
 router.get('/signin', (req, res) => {
@@ -54,7 +55,9 @@ router.post('/signin', async (req, res) => {
 		return res.render('signin', { errormessage: "Invalid password" })
 	}
 
+	// Store the id and office of that user inside the users cookie
 	req.session.userId = user.id;
+	req.session.userOffice = user.office;
 
 	res.render('index');
 });

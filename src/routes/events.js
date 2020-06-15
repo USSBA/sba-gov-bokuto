@@ -1,6 +1,8 @@
-const AWS 				= require('aws-sdk');
+const AWS 	= require('aws-sdk');
 var express = require("express")
+const uuid 				= require('uuid');
 var router = express.Router()
+
 
 const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE } = process.env;
 
@@ -19,34 +21,59 @@ router.get('/events', requireAuth, function(request, response) {
 	console.log('GET: Events listview route accessed');
 
 	const params = {
-		TableName: EVENTS_TABLE
-	};
+        TableName: EVENTS_TABLE,
+        KeyConditionExpression: 'userID = :uid',
+        ExpressionAttributeValues: {
+            ':uid': request.session.userId
+        },
 
-	console.log(params.TableName)
-
-	dynamoDb.scan(params, (error, result) => {
-		if (error) {
-			console.error('Unable to scan the table. Error JSON:', JSON.stringify(error, null, 2));
-			response.status(400).json({ error: 'Error retrieving Events' });
-		} else {
-			console.log('Scan succeeded:');
-			events = [];
-
-			result.Items.forEach(function(event) {
-				var output = {
-					id: event.eventID,
-					title: event.title,
+    };
+    
+    dynamoDb.query(params, function(err, data) {
+        if (err) {
+            console.error("Unable to query.  Error:", JSON.stringify(err, null, 2))
+        } else {
+            console.log("Query succeeded.")
+            events = []
+            data.Items.forEach(function(event) {
+                var output = {
+                    id: event.eventID,
+                    title: event.title,
                     office: event.office,
                     start_date: event.start_date,
-					start_time: event.start_time,
-					status: event.eventStatus
-				};
-				events.push(output);
-			});
+                    start_time: event.start_time,
+                    status: event.eventStatus
+                };
+                events.push(output);
+            });
 
-			response.render('show', { events: events });
-		}
-	});
+            response.render('show', { events: events });
+        }
+    })
+
+	// dynamoDb.scan(params, (error, result) => {
+	// 	if (error) {
+	// 		console.error('Unable to scan the table. Error JSON:', JSON.stringify(error, null, 2));
+	// 		response.status(400).json({ error: 'Error retrieving Events' });
+	// 	} else {
+	// 		console.log('Scan succeeded:');
+	// 		events = [];
+
+	// 		result.Items.forEach(function(event) {
+	// 			var output = {
+	// 				id: event.eventID,
+	// 				title: event.title,
+    //                 office: event.office,
+    //                 start_date: event.start_date,
+	// 				start_time: event.start_time,
+	// 				status: event.eventStatus
+	// 			};
+	// 			events.push(output);
+	// 		});
+
+	// 		response.render('show', { events: events });
+	// 	}
+	// });
 });
 
 // POST: Create a new event
@@ -80,14 +107,11 @@ router.post('/events', requireAuth, function(request, response) {
 		cost
 	} = request.body.event;
 
-	console.log("Recurring: " + recurring)
-	console.log("Interval: " + recurring_interval)
-	console.log("Recurrence End Date: " + recurring_end_date)
-
 	var params = {
 		TableName: EVENTS_TABLE,
 		Item: {
-			eventID: uuid.v4(),
+            userID: request.session.userId,
+            eventID: uuid.v4(),
 			title: title,
 			description: description,
 			office: office,
@@ -138,7 +162,8 @@ router.get('/events/:id/edit', requireAuth, function(request, response) {
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
-			eventID: request.params.id,
+            userID: request.session.userId,
+            eventID: request.params.id,
 		}
 	};
 
@@ -199,7 +224,8 @@ router.put('/events/:id', requireAuth, function(request, response) {
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
-			eventID: request.params.id
+            userID: request.session.userId,
+            eventID: request.params.id
 		},
 		UpdateExpression:
 			'set title = :t, description = :des, office = :off, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, recurring_interval = :ri, recurring_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :azip, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, eventStatus = :status',
@@ -251,7 +277,8 @@ router.delete('/events/:id', requireAuth, function(request, response) {
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
-			eventID: id
+            eventID: id,
+            userID: request.session.userId,
 		}
 	};
 
@@ -269,11 +296,38 @@ router.delete('/events/:id', requireAuth, function(request, response) {
 // GET: List all events and their approval status
 router.get('/events/approve', requireAuth, function(request, response) {
 	console.log('GET: Approval listview route accessed');
-	// var params = {
-	// 	TableName: EVENTS_TABLE,
-	// 	KeyConditionExpress:
-	// }
-    response.render('approve')
+	const params = {
+        TableName: EVENTS_TABLE,
+        IndexName: 'office-status-index',
+        KeyConditionExpression: 'office = :off',
+        ExpressionAttributeValues: {
+            ':off': request.session.userOffice
+        },
+
+    };
+    
+    console.log(params)
+    dynamoDb.query(params, function(err, data) {
+        if (err) {
+            console.error("Unable to query.  Error:", JSON.stringify(err, null, 2))
+        } else {
+            console.log("Query succeeded.")
+            events = []
+            data.Items.forEach(function(event) {
+                var output = {
+                    id: event.eventID,
+                    title: event.title,
+                    office: event.office,
+                    start_date: event.start_date,
+                    start_time: event.start_time,
+                    status: event.eventStatus
+                };
+                events.push(output);
+            });
+            console.log(events)
+            response.render('approve', { events: events });
+        }
+    })
 
     // TO BE IMPLEMENTED
 	// const params = {

@@ -19,10 +19,22 @@ Once you have a local DynamoDB running, you can run app.js with nodemon for best
 
 You can interact with the development site at: `http://localhost:3000/`
 
+## Dev Environment (Remote)
+How to launch a dev environment using EC2
+- Launch new EC2 Instance with Ubuntu Server
+- Run `apt get update` and `apt get upgrade` to bring you current
+- Install Node
+`curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -`
+`sudo apt-get install -y nodejs`
+- Install node modules
+`npm install`
+- Install PM2 globally
+`npm install pm2@latest -g`
+- Run PM2 with your app
+`pm2 start src/app.js`
+
 ## To Do
 To complete this service, following needs to be implemented:
 
-- Approval view
-- Secondary indexes in DDB for event ownership and event status
-- Login/Authentication middleware
-- Roles/responsibilities logic to display only events you own (or your district owns)
+- Find different process manager
+- Operationalize dev environment better

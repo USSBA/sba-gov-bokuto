@@ -1,0 +1,26 @@
+[
+  {
+    "email": "submitter1@test.com",
+    "password": "password",
+    "office": "Arizona",
+    "id": "dksdf83a"
+  },
+  {
+    "email": "submitter2@test.com",
+    "password": "password",
+    "office": "Kentucky",
+    "id": "4cad493a"
+  },
+  {
+    "email": "approver1@sba.gov",
+    "password": "password",
+    "office": "Arizona",
+    "id": "a8a361ce"
+  },
+  {
+    "email": "approver2@sba.gov",
+    "password": "password",
+    "office": "Kentucky",
+    "id": "3ced88e5"
+  }
+]

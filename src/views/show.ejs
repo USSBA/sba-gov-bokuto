@@ -28,6 +28,24 @@
                 <!-- <td class="event-endtime"><%= event.end_time %></td> -->
                 <td class="event-status"><%= event.status %></td>
             </tr>
+            <% if (event.recurring === "recurring") { %>
+                <tr>
+                    <td colspan="6">
+                        <details>
+                            <summary>Event Recurrences</summary>
+                            <table>
+                                <% events.children.forEach(function(child) { %>
+                                <tr>
+                                    <td class="event-name"><%= child.title %></td>
+                                    <td class="event-startdate"><%= child.start_date %></td>
+                                    <td class="event-starttime"><%= child.start_time %></td>
+                                </tr>
+                                <% }) %>
+                            </table>
+                        </details>
+                    </td>
+                </tr>
+            <% } %>
             <% }) %>
         </tbody>
     </table>

@@ -1,0 +1,21 @@
+<%- include ("partials/header.ejs") %>
+
+<main>
+    <div class="login-form">
+        <h2>Login to your account</h2>
+        <p class="required"><%= errormessage %></p>
+        <form action="/signin" method="POST">
+        <input name="email" type="email" title="email" placeholder="username" />
+        <br/>
+        <br/>
+        <input name="password" type="password" title="password" placeholder="password" />
+        <br/>
+        <br/>
+        <button type="submit" class="btn">Login</button>
+        </form>
+        <p>Don't have an account?</p>
+        <p><a href="/signup">Sign Up</a></p>
+    </div>
+</main>
+
+<%- include ("partials/footer.ejs") %>

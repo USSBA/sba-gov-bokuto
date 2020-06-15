@@ -1,12 +1,26 @@
 // Setup
 const AWS 				= require('aws-sdk');
 const bodyParser 		= require('body-parser');
+const cookieSession     = require('cookie-session')
 const express 			= require('express');
 const methodOverride 	= require('method-override');
 const moment 			= require('moment');
-// const passport          = require('passport');
-// const passportLocal     = require('passport-local');
 const uuid 				= require('uuid');
+
+// Development
+const usersRepo = require('./repositories/users');
+
+// Environment Variables
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config()
+}
+const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE, SESSION_SECRET } = process.env;
+
+AWS.config.update({
+	region: AWS_REGION,
+	accessKeyId: AWS_ACCESS_KEY_ID,
+	secretAccessKey: AWS_SECRET_ACCESS_KEY
+})
 
 // Instantiate Express
 const app = express();
@@ -16,33 +30,28 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json({ strict: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-// app.use(require("express-session")({
-//     secret: "The Pen is Mightier Than the Sword",
-//     resave: false,
-//     saveUninitialized: false
-// }))
+app.use(
+	cookieSession({
+	  keys: [SESSION_SECRET]
+	})
+);
 
 app.set('view engine', 'ejs');
 
-// Setup Passport
-// app.use(passport.initialize())
-// app.use(passport.session())
-
-// passport.use(new LocalStrategy({
-// 	username
-// 	}
-// ))
-// passport.serializeUser(User.serializeUser())
-// passport.deserializeUser(User.deserializeUser())
-
-// Environment variables
-const { AWS_REGION, DDB_ENDPOINT, EVENTS_TABLE } = process.env;
-
 // Connect to Database
-// Development
-const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2', endpoint: 'http://localhost:8000' });
-// Production
-// const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: AWS_REGION, endpoint: DDB_ENDPOINT });
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+
+const params = {
+    TableName: EVENTS_TABLE,
+}
+
+dynamoDb.scan(params, function(err, data) {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log(data)
+    }
+})
 
 // ROUTES
 // Landing page with instructions
@@ -51,43 +60,70 @@ app.get('/', function(request, response) {
 	response.render('index');
 });
 
-// Login form
-app.get("/login", function(req, res) {
-    res.render("login")
+app.get("/signup", function(req, res) {
+	res.render("signup", { userid: req.session.userId, errormessage: "" })
 })
 
-// Handle user login
-// Utilize middleware
-// // <-- begin of route --- middleware --- end of route (handler) -->
-// app.post("/login", passport.authenticate("local", {
-//     successRedirect: "/secret",
-//     failureRedirect: "/login"
-// }),
-// // end of route (handler)
-//     function(req, res) {
-// })
+app.post('/signup', async (req, res) => {
+	const { email, password, passwordConfirmation } = req.body;
 
-// Middleware to test if logged in
-// function isLoggedIn(req, res, next) {
-//     if(req.isAuthenticated()){
-//         return next()
-//     }
-//     res.redirect("/login")
-// }
+	const existingUser = await usersRepo.getOneBy({ email });
+	if (existingUser) {
+		return res.render('signup', { errormessage: "Email in use" })
+	}
 
-// // Logout route
-// app.get("/logout", function(req, res) {
-//     req.logout()
-//     res.redirect("/")
-// })
+	if (password !== passwordConfirmation) {
+		return res.render('signup', { errormessage: "Passwords must match" })
+	}
+
+	// Create a user in our user repo to represent this person
+	const user = await usersRepo.create({ email, password });
+
+	// Store the id of that user inside the users cookie
+	req.session.userId = user.id;
+
+	console.log("New user registered")
+	res.redirect('/');
+});
+  
+app.get('/signout', (req, res) => {
+	req.session = null;
+
+	console.log("User logged out")
+	res.redirect('/');
+});
+  
+app.get('/signin', (req, res) => {
+	res.render('signin', { errormessage: "" })
+});
+  
+app.post('/signin', async (req, res) => {
+	const { email, password } = req.body;
+
+	const user = await usersRepo.getOneBy({ email });
+
+	if (!user) {
+		return res.render('signin', { errormessage: "Email not found" })
+	}
+
+	if (user.password !== password) {
+		return res.render('signin', { errormessage: "Invalid password" })
+	}
+
+	req.session.userId = user.id;
+
+	res.render('/');
+});
 
 // GET: List all events
 app.get('/events', function(request, response) {
 	console.log('GET: Events listview route accessed');
 
 	const params = {
-		TableName: 'Events'
+		TableName: EVENTS_TABLE
 	};
+
+	console.log(params.TableName)
 
 	dynamoDb.scan(params, (error, result) => {
 		if (error) {
@@ -104,7 +140,7 @@ app.get('/events', function(request, response) {
                     office: event.office,
                     start_date: event.start_date,
 					start_time: event.start_time,
-					status: event.event_status
+					status: event.eventStatus
 				};
 				events.push(output);
 			});
@@ -150,7 +186,7 @@ app.post('/events', function(request, response) {
 	console.log("Recurrence End Date: " + recurring_end_date)
 
 	var params = {
-		TableName: 'Events',
+		TableName: EVENTS_TABLE,
 		Item: {
 			eventID: uuid.v4(),
 			title: title,
@@ -176,7 +212,7 @@ app.post('/events', function(request, response) {
 			contact_phone: contact_phone,
 			registration_url: registration_url,
             cost: cost,
-            event_status: request.query.status
+            eventStatus: request.query.status
 		}
 	};
 
@@ -201,9 +237,9 @@ app.get('/events/new', function(request, response) {
 app.get('/events/:id/edit', function(request, response) {
 	console.log('GET: Show the form to edit a single event');
 	var params = {
-		TableName: 'Events',
+		TableName: EVENTS_TABLE,
 		Key: {
-			eventID: request.params.id
+			eventID: request.params.id,
 		}
 	};
 
@@ -262,12 +298,12 @@ app.put('/events/:id', function(request, response) {
 	}
 
 	var params = {
-		TableName: 'Events',
+		TableName: EVENTS_TABLE,
 		Key: {
 			eventID: request.params.id
 		},
 		UpdateExpression:
-			'set title = :t, description = :des, office = :off, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, recurring_interval = :ri, recurring_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :azip, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, event_status = :status',
+			'set title = :t, description = :des, office = :off, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, recurring_interval = :ri, recurring_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :azip, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, eventStatus = :status',
 		ExpressionAttributeValues: {
 			':t'     : title,
 			':des'   : description,
@@ -314,7 +350,7 @@ app.delete('/events/:id', function(request, response) {
 	const { id } = request.params;
 	console.log(id);
 	var params = {
-		TableName: 'Events',
+		TableName: EVENTS_TABLE,
 		Key: {
 			eventID: id
 		}
@@ -333,12 +369,16 @@ app.delete('/events/:id', function(request, response) {
 
 // GET: List all events and their approval status
 app.get('/events/approve', function(request, response) {
-    console.log('GET: Approval listview route accessed');
+	console.log('GET: Approval listview route accessed');
+	// var params = {
+	// 	TableName: EVENTS_TABLE,
+	// 	KeyConditionExpress:
+	// }
     response.render('approve')
 
     // TO BE IMPLEMENTED
 	// const params = {
-    //     TableName: 'Events',
+    //     TableName: EVENTS_TABLE,
     //     KeyConditionExpression: "event_status = :status",
     //     ExpressionAttributeNames:{
     //         "event_status": "event_status"

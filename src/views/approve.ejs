@@ -1,8 +1,8 @@
 <%- include ("partials/header.ejs") %>
 
 <main>
-    <h1>View Events</h1>
-    <p>You can track the progress of your events and update any of their information using the Modify link on the left.</p>
+    <h1>Approve Events</h1>
+    <p>Here you can approve events submitted to be published on SBA.gov.  Please allow 15 minutes before the event listing is visible on the site.</p>
     <table>
         <thead>
             <tr>
@@ -10,9 +10,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">District Office</th>
                 <th scope="col">Start Date</th>
-                <!-- <th scope="col">End Date</th> -->
                 <th scope="col">Start Time</th>
-                <!-- <th scope="col">End Time</th> -->
                 <th scope="col">Status</th>
             </tr>
         </thead>
@@ -23,9 +21,7 @@
                 <td class="event-name"><%= event.title %></td>
                 <td class="event-districtoffice"><%= event.office %></td>
                 <td class="event-startdate"><%= event.start_date %></td>
-                <!-- <td class="event-enddate"><%= event.end_date %></td> -->
                 <td class="event-starttime"><%= event.start_time %></td>
-                <!-- <td class="event-endtime"><%= event.end_time %></td> -->
                 <td class="event-status"><%= event.status %></td>
             </tr>
             <% }) %>

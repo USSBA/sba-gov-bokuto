@@ -17,6 +17,7 @@ const { requireAuth } = require('./routes/middlewares')
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config()
 }
+
 const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE, SESSION_SECRET } = process.env;
 
 AWS.config.update({
@@ -69,6 +70,20 @@ dynamoDb.scan(params, function(err, data) {
 app.get('/', requireAuth, function(request, response) {
 	console.log('GET: Root route accessed');
 	response.render('index');
+});
+
+app.get('/healthcheck', function(request, response) {
+	const healthcheck = {
+		uptime: process.uptime(),
+		message: 'OK',
+		timestamp: Date.now()
+	}
+	try {
+		response.send();
+	} catch (error) {
+		healthcheck.message = error;
+		response.status(503).send();
+	}
 });
 
 // Start Server

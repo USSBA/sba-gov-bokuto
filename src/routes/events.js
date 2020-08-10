@@ -1,7 +1,7 @@
 const AWS 	= require('aws-sdk');
 var express = require("express")
-const uuid 				= require('uuid');
-var router = express.Router()
+const uuid 	= require('uuid');
+var router  = express.Router()
 
 
 const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE } = process.env;
@@ -34,7 +34,9 @@ router.get('/events', requireAuth, function(request, response) {
             console.error("Unable to query.  Error:", JSON.stringify(err, null, 2))
         } else {
             console.log("Query succeeded.")
-            events = []
+			// turn this into a map
+			events = []
+			
             data.Items.forEach(function(event) {
                 var output = {
                     id: event.eventID,
@@ -106,10 +108,12 @@ router.post('/events', requireAuth, function(request, response) {
 		registration_url,
 		cost
 	} = request.body.event;
-
+	// add userID, eventID, and status to the body.event object
+	// pass the actual body.event object as Item
 	var params = {
 		TableName: EVENTS_TABLE,
 		Item: {
+			// add some sugar (remove duplicates for same name attributes)
             userID: request.session.userId,
             eventID: uuid.v4(),
 			title: title,
@@ -231,14 +235,14 @@ router.put('/events/:id', requireAuth, function(request, response) {
 	} = request.body.event;
 
 	if (event_type == "online") {
-		address_street_1 = "";
+		address_street_1 = ""
 		address_street_2 = ""
 		address_city = ""
 		address_state = ""
 		address_zip = ""
 	}
 
-	if (recurring = "onetime") {
+	if (recurring == "onetime") {
 		recurring_interval = ""
 		recurring_end_date = ""
 	}
@@ -249,6 +253,7 @@ router.put('/events/:id', requireAuth, function(request, response) {
             userID: request.session.userId,
             eventID: request.params.id
 		},
+		// create 
 		UpdateExpression:
 			'set title = :t, description = :des, office = :off, start_date = :sd, end_date = :ed, start_time = :st, end_time = :et, event_timezone = :tz, event_type = :ty, recurring = :r, recurring_interval = :ri, recurring_end_date = :red, location_name = :ln, address_street_1 = :as1, address_street_2 = :as2, address_city = :ac, address_state = :as, address_zip = :azip, contact_name = :cn, contact_email = :ce, contact_phone = :cp, registration_url = :url, cost = :cost, eventStatus = :status',
 		ExpressionAttributeValues: {
@@ -285,9 +290,11 @@ router.put('/events/:id', requireAuth, function(request, response) {
 			console.error('Unable to update item.  Error JSON:', JSON.stringify(error, null, 2));
 		} else {
 			console.log('UpdateItem succeeded:', JSON.stringify(data, null, 2));
+			// if event.status == approved then posting to Shinai
+			// fetch to endpoint
 		}
     });
-    
+	
     response.redirect('/events')
 });
 
@@ -390,4 +397,5 @@ router.get('/events/approve', requireAuth, function(request, response) {
 	// });
 });
 
+router.post('/events/approve')
 module.exports = router

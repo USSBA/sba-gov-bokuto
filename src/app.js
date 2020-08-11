@@ -75,6 +75,7 @@ app.get('/', function(request, response) {
 	console.log(request.header('User-Agent'))
 	console.log(request.header('Access-Control-Allow-Origin'))
 	console.log(request.header('Access-Control-Allow-Credentials'))
+	console.log(JSON.stringify(request.headers));
 	console.log('Cookies: ', request.cookies)
 	console.log('eSessionCookiePlain: ', request.cookies['eSessionCookiePlain'])
 	console.log('lSessionCookiePlain: ', request.cookies['lSessionCookiePlain'])

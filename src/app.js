@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config()
 }
 
-const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE, SESSION_SECRET } = process.env;
+const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE, SESSION_SECRET, EXTERNAL_SESSION_SECRET } = process.env;
 
 AWS.config.update({
 	region: AWS_REGION,

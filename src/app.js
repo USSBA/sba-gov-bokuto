@@ -1,6 +1,7 @@
 // Setup
 const AWS 				= require('aws-sdk');
 const bodyParser 		= require('body-parser');
+const cookieParser 		= require('cookie-parser')
 const cookieSession     = require('cookie-session')
 const express 			= require('express');
 const methodOverride 	= require('method-override');
@@ -30,6 +31,7 @@ AWS.config.update({
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json({ strict: false }))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use(methodOverride('_method'))
 app.use(
 	cookieSession({

@@ -14,7 +14,8 @@ AWS.config.update({
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-var { requireAuth } = require("./middlewares")
+var { requireAuth } = require("./middlewares");
+const { on } = require('process');
 
 // GET: List all events
 router.get('/events', requireAuth, function(request, response) {
@@ -365,34 +366,96 @@ router.get('/events/:id/approve', requireAuth, function(request, response) {
 		} else {
 			console.log(`Get succeeded: ${data.Item.eventID}`);
 			console.log(JSON.stringify(data.Item));
-			const data = JSON.stringify(data.Item);
+			// const eventData = JSON.stringify(data.Item);
 
 			// Send the request to Shinai
+			// Standard HTTP module
+			let eventData = JSON.stringify({
+				"Id": data.Item.eventID,
+				"Title": data.Item.title,
+				"Description": data.Item.description,
+				"DistrictOffice": data.Item.office,
+				"StartDate": data.Item.start_date,
+				"EndDate": data.Item.end_date,
+				"TimeZone": null,
+				"RecurringEvent": data.Item.recurring,
+				"RecurrenceEndDate": data.Item.recurring_end_date,
+				"RecurringEventCycle": data.Item.recurring_interval,
+				"LocationName": data.Item.location_name,
+				"Street": data.Item.address_street_1,
+				"Additional": data.Item.address_street_2,
+				"City": data.Item.address_city,
+				"Postalcode": data.Item.address_zip,
+				"Country": null,
+				"ContactName": data.Item.contact_name,
+				"Email": data.Item.contact_email,
+				"Phone": data.Item.contact_phone,
+				"Extension": null,
+				"RegistrationLink": data.Item.registration_url,
+				"Status": data.Item.eventStatus,
+				"Cost": data.Item.cost,
+				"State": data.Item.address_state,
+				"LocationType": data.Item.event_type,
+				"OfficeId": "6386",
+				"ApproverComments": null,
+				"EventType": "Parent",
+				"ParentID": null,
+				"StartTime": data.Item.start_time,
+				"EndTime": data.Item.end_time,
+				"ID": data.Item.eventID
+			})
+
 			const options = {
 				hostname: SHINAI_URL,
-				port: 443,
 				path: '/events',
 				method: 'POST',
 				headers: {
+					'Content-Type': "application/json",
+					'Content-Length': eventData.length,
 					'x-api-key': SHINAI_KEY,
-					'Content-Length': data.length
 				}
 			}
 
-			const transmit = https.request(options, (shinai_response) => {
-				console.log(`statusCode: ${res.statusCode}`)
-
-				shinai_response.on('data', (d) => {
-					process.stdout.write(d)
-					console.log(d })
+			https.request(options, eventResponse => {
+				let responseData = ""
+				eventResponse.on("data", d => {
+					responseData += d
+				})
+				eventResponse.on("end", () => {
+					console.log(eventData)
+				})
 			})
+			.on("error", console.error)
+			.end(eventData)
 
-				transmit.on('error', (error) => {
-				console.error(error)
-			})
+			// Standard HTTPS module
+		// 	const options = {
+		// 		hostname: SHINAI_URL,
+		// 		port: 443,
+		// 		path: '/events',
+		// 		method: 'POST',
+		// 		headers: {
+		// 			'x-api-key': SHINAI_KEY,
+		// 			'Content-Length': eventData.length
+		// 		}
+		// 	}
 
-			transmit.write(data)
-			transmit.end()
+		// 	const transmit = https.request(options, (shinai_response) => {
+		// 		console.log(`statusCode: ${shinai_response.statusCode}`)
+
+		// 		shinai_response.on('data', (d) => {
+		// 			process.stdout.write(d)
+		// 			console.log(d)
+		// 		})
+		// 	})
+		// 	console.log(transmit)
+
+		// 	transmit.on('error', (error) => {
+		// 		console.error(error)
+		// 	})
+
+		// 	transmit.write(eventData)
+		// 	transmit.end()
 		}
 	});
 

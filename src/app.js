@@ -72,16 +72,17 @@ dynamoDb.scan(params, function(err, data) {
 // Landing page with instructions
 app.get('/', function(request, response) {
 	console.log('GET: Root route accessed')
-	console.log(request.header('User-Agent'))
-	console.log(request.header('Access-Control-Allow-Origin'))
-	console.log(request.header('Access-Control-Allow-Credentials'))
-	console.log(JSON.stringify(request.headers));
+	// console.log(request.header('User-Agent'))
+	// console.log(request.header('Access-Control-Allow-Origin'))
+	// console.log(request.header('Access-Control-Allow-Credentials'))
+	console.log(JSON.stringify(request.headers))
+	console.log(JSON.stringify(request.body))
 	console.log('Cookies: ', request.cookies)
-	console.log('eSessionCookiePlain: ', request.cookies['eSessionCookiePlain'])
-	console.log('lSessionCookiePlain: ', request.cookies['lSessionCookiePlain'])
+	// console.log('eSessionCookiePlain: ', request.cookies['eSessionCookiePlain'])
+	// console.log('lSessionCookiePlain: ', request.cookies['lSessionCookiePlain'])
 	console.log('Signed Cookies: ', request.signedCookies)
-	console.log('eSessionCookie: ', cookieParser.signedCookie(request.signedCookies['eSessionCookie'], EXTERNAL_SESSION_SECRET))
-	console.log('lSessionCookie: ', cookieParser.signedCookie(request.signedCookies['lSessionCookie'], EXTERNAL_SESSION_SECRET))
+	// console.log('eSessionCookie: ', cookieParser.signedCookie(request.signedCookies['eSessionCookie'], EXTERNAL_SESSION_SECRET))
+	// console.log('lSessionCookie: ', cookieParser.signedCookie(request.signedCookies['lSessionCookie'], EXTERNAL_SESSION_SECRET))
 	response.render('index');
 });
 

@@ -70,8 +70,10 @@ dynamoDb.scan(params, function(err, data) {
 })
 
 // Landing page with instructions
-app.get('/', requireAuth, function(request, response) {
+app.get('/', function(request, response) {
 	console.log('GET: Root route accessed');
+	console.log('Cookies: ', request.cookies)
+	console.log('Signed Cookies: ', request.signedCookie(['eSessionCookie'], EXTERNAL_SESSION_SECRET))
 	response.render('index');
 });
 

@@ -371,38 +371,46 @@ router.get('/events/:id/approve', requireAuth, function(request, response) {
 			// Send the request to Shinai
 			// Standard HTTP module
 			let eventData = JSON.stringify({
+				"d": {
+					"__metadata": {
+					"id": "ebe2d550-58f1-4f54-a632-b067e7384365",
+					"uri": "https://spteamfearless.sharepoint.com/sites/SBAEvents/_api/Web/Lists(guid'62accc8a-ae0e-43d7-a1cf-27a8cb78558a')/Items(304)",
+					"etag": "\"2\"",
+					"type": "SP.Data.EventsListListItem"
+				},
 				"Id": data.Item.eventID,
 				"Title": data.Item.title,
 				"Description": data.Item.description,
 				"DistrictOffice": data.Item.office,
 				"StartDate": data.Item.start_date,
 				"EndDate": data.Item.end_date,
-				"TimeZone": null,
+				"TimeZone": "",
 				"RecurringEvent": data.Item.recurring,
-				"RecurrenceEndDate": data.Item.recurring_end_date,
+				"RecurrenceEndDate": "2020-05-24T04:00:00Z",
 				"RecurringEventCycle": data.Item.recurring_interval,
 				"LocationName": data.Item.location_name,
-				"Street": data.Item.address_street_1,
-				"Additional": data.Item.address_street_2,
-				"City": data.Item.address_city,
-				"Postalcode": data.Item.address_zip,
-				"Country": null,
+				"Street": "4404 Amon Carter Blvd",
+				"Additional": "#102",
+				"City": "Fort Worth",
+				"Postalcode": "76155",
+				"State": "Texas",
+				"Country": "",
 				"ContactName": data.Item.contact_name,
 				"Email": data.Item.contact_email,
 				"Phone": data.Item.contact_phone,
-				"Extension": null,
+				"Extension": "",
 				"RegistrationLink": data.Item.registration_url,
 				"Status": data.Item.eventStatus,
 				"Cost": data.Item.cost,
-				"State": data.Item.address_state,
 				"LocationType": data.Item.event_type,
 				"OfficeId": "6386",
-				"ApproverComments": null,
+				"ApproverComments": "",
 				"EventType": "Parent",
-				"ParentID": null,
+				"ParentID": "",
 				"StartTime": data.Item.start_time,
 				"EndTime": data.Item.end_time,
-				"ID": data.Item.eventID
+				"ID": data.Item.eventID,
+				}
 			})
 
 			const options = {

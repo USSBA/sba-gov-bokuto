@@ -72,6 +72,7 @@ dynamoDb.scan(params, function(err, data) {
 // Landing page with instructions
 app.get('/', function(request, response) {
 	console.log('GET: Root route accessed')
+	console.log(request.header('User-Agent'))
 	console.log(request.header('Access-Control-Allow-Origin'))
 	console.log(request.header('Access-Control-Allow-Credentials'))
 	console.log('Cookies: ', request.cookies)

@@ -1,10 +1,10 @@
 const AWS 	= require('aws-sdk');
-var express = require("express")
+var express = require("express");
+const https = require('https');
 const uuid 	= require('uuid');
 var router  = express.Router()
 
-
-const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE } = process.env;
+const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, EVENTS_TABLE, SHINAI_URL, SHINAI_KEY } = process.env;
 
 AWS.config.update({
 	region: AWS_REGION,
@@ -20,6 +20,7 @@ var { requireAuth } = require("./middlewares")
 router.get('/events', requireAuth, function(request, response) {
 	console.log('GET: Events listview route accessed');
 
+	// All events that a user owns (userID in DynamoDB)
 	const params = {
         TableName: EVENTS_TABLE,
         KeyConditionExpression: 'userID = :uid',
@@ -52,30 +53,6 @@ router.get('/events', requireAuth, function(request, response) {
             response.render('show', { events: events });
         }
     })
-
-	// dynamoDb.scan(params, (error, result) => {
-	// 	if (error) {
-	// 		console.error('Unable to scan the table. Error JSON:', JSON.stringify(error, null, 2));
-	// 		response.status(400).json({ error: 'Error retrieving Events' });
-	// 	} else {
-	// 		console.log('Scan succeeded:');
-	// 		events = [];
-
-	// 		result.Items.forEach(function(event) {
-	// 			var output = {
-	// 				id: event.eventID,
-	// 				title: event.title,
-    //                 office: event.office,
-    //                 start_date: event.start_date,
-	// 				start_time: event.start_time,
-	// 				status: event.eventStatus
-	// 			};
-	// 			events.push(output);
-	// 		});
-
-	// 		response.render('show', { events: events });
-	// 	}
-	// });
 });
 
 // POST: Create a new event
@@ -108,6 +85,7 @@ router.post('/events', requireAuth, function(request, response) {
 		registration_url,
 		cost
 	} = request.body.event;
+	// TO-DO Refinements:
 	// add userID, eventID, and status to the body.event object
 	// pass the actual body.event object as Item
 	var params = {
@@ -163,6 +141,8 @@ router.get('/events/new', requireAuth, function(request, response) {
 // GET: Form to edit a single event
 router.get('/events/:id/edit', requireAuth, function(request, response) {
 	console.log('GET: Show the form to edit a single event');
+
+	// Event that a user owns (userID in DDB) with a particular id (eventID in DDB)
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
@@ -185,6 +165,8 @@ router.get('/events/:id/edit', requireAuth, function(request, response) {
 // GET: Form to review a single event
 router.get('/events/:id/review', requireAuth, function(request, response) {
 	console.log('GET: Show the form to edit a single event');
+
+	// Event that a user owns (userID in DDB) with a particular id (eventID in DDB)
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
@@ -247,6 +229,7 @@ router.put('/events/:id', requireAuth, function(request, response) {
 		recurring_end_date = ""
 	}
 
+	// Event that a user owns (userID in DDB) with a particular id (eventID in DDB)
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
@@ -303,6 +286,8 @@ router.delete('/events/:id', requireAuth, function(request, response) {
 	console.log('DELETE: Remove a single event');
 	const { id } = request.params;
 	console.log(id);
+
+	// Event that a user owns (userID in DDB) with a particular id (eventID in DDB)
 	var params = {
 		TableName: EVENTS_TABLE,
 		Key: {
@@ -325,6 +310,8 @@ router.delete('/events/:id', requireAuth, function(request, response) {
 // GET: List all events and their approval status
 router.get('/events/approve', requireAuth, function(request, response) {
 	console.log('GET: Approval listview route accessed');
+
+	// List of events belonging to the userOffice with a status of "submitted"
 	const params = {
         TableName: EVENTS_TABLE,
         ProjectionExpress: "eventID, title, office, start_date, start_time, eventStatus",
@@ -359,42 +346,57 @@ router.get('/events/approve', requireAuth, function(request, response) {
             response.render('approve', { events: events });
         }
     })
+});
 
-    // TO BE IMPLEMENTED
-	// const params = {
-    //     TableName: EVENTS_TABLE,
-    //     KeyConditionExpression: "event_status = :status",
-    //     ExpressionAttributeNames:{
-    //         "event_status": "event_status"
-    //     },
-    //     ExpressionAttributeValues: {
-    //         ":status": "submitted"
-    //     }
-	// };
+// GET: Approve an individual event
+router.get('/events/:id/approve', requireAuth, function(request, response) {
+	console.log('GET: Approval for single event received');
+	var params = {
+		TableName: EVENTS_TABLE,
+		Key: {
+            userID: request.session.userId,
+            eventID: request.params.id,
+		}
+	};
 
-	// dynamoDb.query(params, (error, result) => {
-	// 	if (error) {
-	// 		console.error('Unable to scan the table. Error JSON:', JSON.stringify(error, null, 2));
-	// 		response.status(400).json({ error: 'Error retrieving Events' });
-	// 	} else {
-	// 		console.log('Scan succeeded:');
-	// 		events = [];
+	dynamoDb.get(params, function(error, data) {
+		if (error) {
+			console.error('Unable to get. Error:', JSON.stringify(error, null, 2));
+		} else {
+			console.log(`Get succeeded: ${data.Item.eventID}`);
+			console.log(JSON.stringify(data.Item));
+			const data = JSON.stringify(data.Item);
 
-	// 		result.Items.forEach(function(event) {
-	// 			var output = {
-	// 				id: event.eventID,
-	// 				title: event.title,
-    //                 office: event.office,
-    //                 start_date: event.start_date,
-	// 				start_time: event.start_time,
-	// 				status: event.event_status
-	// 			};
-	// 			events.push(output);
-	// 		});
+			// Send the request to Shinai
+			const options = {
+				hostname: SHINAI_URL,
+				port: 443,
+				path: '/events',
+				method: 'POST',
+				headers: {
+					'x-api-key': SHINAI_KEY,
+					'Content-Length': data.length
+				}
+			}
 
-	// 		response.render('approve', { events: events });
-	// 	}
-	// });
+			const transmit = https.request(options, (shinai_response) => {
+				console.log(`statusCode: ${res.statusCode}`)
+
+				shinai_response.on('data', (d) => {
+					process.stdout.write(d)
+					console.log(d })
+			})
+
+				transmit.on('error', (error) => {
+				console.error(error)
+			})
+
+			transmit.write(data)
+			transmit.end()
+		}
+	});
+
+	response.redirect('/events/approve');
 });
 
 router.post('/events/approve')

@@ -1,8 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ("partials/head.ejs") %>
+
+<body>
+
 <%- include ("partials/header.ejs") %>
 
 <main>
     <h1>Approve Events</h1>
-    <p>Here you can approve events submitted to be published on SBA.gov.  Please allow 15 minutes before the event listing is visible on the site.</p>
+    <p>Here you can approve events and publish them on SBA.gov.  Allow 15 minutes for the event to appear on the site.</p>
     <table>
         <thead>
             <tr>
@@ -17,7 +24,7 @@
         <tbody>
             <% events.forEach(function(event) { %>
             <tr>
-                <td class="event-link"><a href="/events/<%= event.id %>/review">Approve</a>
+                <td class="event-link"><a href="/events/<%= event.id %>/approve">Approve</a>
                 <td class="event-name"><%= event.title %></td>
                 <td class="event-districtoffice"><%= event.office %></td>
                 <td class="event-startdate"><%= event.start_date %></td>
@@ -30,3 +37,6 @@
 </main>
 
 <%- include ("partials/footer.ejs") %>
+
+</body>
+</html>

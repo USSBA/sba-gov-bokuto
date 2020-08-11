@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ("partials/head.ejs") %>
+
+<body>
+
 <%- include ("partials/header.ejs") %>
 
 <main>
@@ -109,6 +116,9 @@
         <input type="submit" value="Save as Draft" formaction="/events?status=draft" formmethod="post">
     </form>
 </main>
+
+<%- include ("partials/footer.ejs") %>
+
 <script>
     var timezoneDisplay = document.getElementById('timezone')
     timezoneDisplay.value = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -162,4 +172,5 @@
     })
 </script>
 
-<%- include ("partials/footer.ejs") %>
+</body>
+</html>

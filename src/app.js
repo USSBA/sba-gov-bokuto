@@ -54,6 +54,7 @@ app.set('view engine', 'ejs');
 // Connect to Database
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+console.log(process.env.EVENTS_TABLE);
 const params = {
     TableName: EVENTS_TABLE,
 }

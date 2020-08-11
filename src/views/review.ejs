@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ("partials/head.ejs") %>
+
+<body>
+
 <%- include ("partials/header.ejs") %>
 
 <main>
@@ -125,6 +132,9 @@
         <input type="submit" value="Delete this Event" formaction="/events/<%= event.eventID %>?_method=DELETE" formmethod="post" formnovalidate>
     </form>
 </main>
+
+<%- include ("partials/footer.ejs") %>
+
 <script>
     var timezoneDisplay = document.getElementById('timezone')
     timezoneDisplay.value = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -187,4 +197,5 @@
     })
 </script>
 
-<%- include ("partials/footer.ejs") %>
+</body>
+</html>

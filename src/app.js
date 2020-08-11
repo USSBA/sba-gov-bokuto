@@ -71,10 +71,13 @@ dynamoDb.scan(params, function(err, data) {
 
 // Landing page with instructions
 app.get('/', function(request, response) {
-	console.log('GET: Root route accessed');
+	console.log('GET: Root route accessed')
 	console.log('Cookies: ', request.cookies)
+	console.log('eSessionCookiePlain: ', request.cookies['eSessionCookiePlain'])
+	console.log('lSessionCookiePlain: ', request.cookies['lSessionCookiePlain'])
 	console.log('Signed Cookies: ', request.signedCookies)
 	console.log('eSessionCookie: ', cookieParser.signedCookie(request.signedCookies['eSessionCookie'], EXTERNAL_SESSION_SECRET))
+	console.log('lSessionCookie: ', cookieParser.signedCookie(request.signedCookies['lSessionCookie'], EXTERNAL_SESSION_SECRET))
 	response.render('index');
 });
 

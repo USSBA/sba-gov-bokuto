@@ -1,8 +1,10 @@
+const axios = require('axios')
 const express = require('express')
+const jwt = require('jsonwebtoken');
 const usersRepo = require('../repositories/users')
 const { HttpResponse } = require('aws-sdk')
 
-const { CONNECT_CLIENT_ID, CONNECT_CLIENT_SECRET } = process.env;
+const { CONNECT_BASE_URL, CONNECT_CLIENT_ID, CONNECT_CLIENT_SECRET, CONNECT_ENCRYPTION_KEY, BOKUTO_BASE_URL } = process.env;
 
 const router = express.Router()
 
@@ -42,41 +44,74 @@ router.get('/signout', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-	res.redirect(`https://${CONNECT_BASE_URL}/JWT/JWTLoginService?JWTClientId=${CONNECT_CLIENT_ID}&JWTRedirectUrl=https://${BOKUTO_BASE_URL}/`)
+	console.log(req)
+	res.redirect(`https://${CONNECT_BASE_URL}/JWT/JWTLoginService?JWTClientId=${CONNECT_CLIENT_ID}&JWTRedirectUrl=https://${BOKUTO_BASE_URL}/authenticated`)
 })
 
 router.get('/authenticated', (req, res) => {
-	let data = JSON.stringify({
-
-	})
-
-	let options = {
-		hostname: ,
-		port: 443,
-		path: ,
-		method: 'POST',
+	axios({
+		method: 'post',
+		url: `https://${CONNECT_BASE_URL}/JwtToken`,
 		headers: {
-			'Content-Type': 'application/json',
-			'Content-Length': data.length
+			'Content-Type': 'application/json'
+		},
+		data: {
+			'client_id': CONNECT_CLIENT_ID,
+			'client_secret': CONNECT_CLIENT_SECRET,
+			'code': req.query.code
 		}
-	}
+	}).then((response) => {
+		const jwtToken = response.data.Token
+		console.log(jwtToken)
+		axios({
+			method: 'post',
+			url: `https://${CONNECT_BASE_URL}/JwtToken/ValidateToken`,
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${jwtToken}`
+			},
+			data: {
+				'client_id': CONNECT_CLIENT_ID,
+			}
+		}).then((validatedResponse) => {
+			const jwtValid = validatedResponse.data.Result
+			if (jwtValid) {
+				let options = {
+					algorithms: 'HS256'
+					// expiresIn: '1d',
+					// issuer: `https://${CONNECT_BASE_URL}`
+				}
 
-	const jwtRequest = https.request(options, (response) => {
-		console.log(`statusCode: ${response.statusCode}`)
-		
-		let returnedData = ''
+				// This works
+				try {
+					let decodedData = jwt.decode(jwtToken)
+					console.log(decodedData)
+				}
+				catch (err) {
+					console.error(err)
+				}
 
-		response.on('data', (d) => {
-			returnedData += d
+				// This does not work
+				try {
+					let decodedData = jwt.verify(jwtToken, CONNECT_ENCRYPTION_KEY, options)
+					console.log(decodedData)
+				}
+				catch (err) {
+					console.error(err)
+				}
+				
+				// Save token here
+			} else {
+				console.log("The JWT is not valid!")
+			}
+			console.log(jwtValid)
+			res.send("Authenticated with token: " + jwtToken + " with validation state of: " + jwtValid)
+		}, (error) => {
+			console.log(error)
 		})
-		response.on("end", () => {
-			console.log(returnedData)
-		})
+	}, (error) => {
+		console.log(error)
 	})
-	.on("error", console.eror)
-	.end(returnedData)
-	
-	res.send("Authenticated: " + req.params)
 })
 
 router.get('/signin', (req, res) => {
@@ -102,5 +137,14 @@ router.post('/signin', async (req, res) => {
 
 	res.render('index');
 });
+
+function streamToString (stream) {
+	const chunks = []
+	return new Promise((resolve, reject) => {
+	  stream.on('data', chunk => chunks.push(chunk))
+	  stream.on('error', reject)
+	  stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+	})
+  }
 
 module.exports = router;

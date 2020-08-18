@@ -1,5 +1,8 @@
 const express = require('express')
 const usersRepo = require('../repositories/users')
+const { HttpResponse } = require('aws-sdk')
+
+const { CONNECT_CLIENT_ID, CONNECT_CLIENT_SECRET } = process.env;
 
 const router = express.Router()
 
@@ -37,7 +40,45 @@ router.get('/signout', (req, res) => {
 	console.log("User logged out")
 	res.render('signin');
 });
-  
+
+router.get('/login', (req, res) => {
+	res.redirect(`https://${CONNECT_BASE_URL}/JWT/JWTLoginService?JWTClientId=${CONNECT_CLIENT_ID}&JWTRedirectUrl=https://${BOKUTO_BASE_URL}/`)
+})
+
+router.get('/authenticated', (req, res) => {
+	let data = JSON.stringify({
+
+	})
+
+	let options = {
+		hostname: ,
+		port: 443,
+		path: ,
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': data.length
+		}
+	}
+
+	const jwtRequest = https.request(options, (response) => {
+		console.log(`statusCode: ${response.statusCode}`)
+		
+		let returnedData = ''
+
+		response.on('data', (d) => {
+			returnedData += d
+		})
+		response.on("end", () => {
+			console.log(returnedData)
+		})
+	})
+	.on("error", console.eror)
+	.end(returnedData)
+	
+	res.send("Authenticated: " + req.params)
+})
+
 router.get('/signin', (req, res) => {
 	res.render('signin', { errormessage: "" })
 });

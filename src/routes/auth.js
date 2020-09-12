@@ -18,8 +18,29 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const router = express.Router()
 
+// router.get('/login', (req, res) => {
+// 	// console.log(req)
+// 	res.redirect(`https://${CONNECT_BASE_URL}/JWT/JWTLoginService?JWTClientId=${CONNECT_CLIENT_ID}&JWTRedirectUrl=https://${BOKUTO_BASE_URL}/authenticated&JWTResponseType=token`)
+// 	// &JWTResponseType=token
+// })
+
+// // Straight up jwt /authenticated
+// router.get('/authenticated', (req, res) => {
+// 	console.log(req.query.token)
+// 	if (req.query.token) {
+// 		console.log(req.query.token);
+// 		var cert = fs.readFileSync('cert.pem');  // get public key
+// 		jwt.verify(jwtToken, cert, function(err, decoded) {
+// 			console.log(decoded)
+// 		});
+// 	}
+// 	console.log("===STOP===")
+// })
+
+// Code version of the /authenticated route
+
 router.get('/login', (req, res) => {
-	console.log(req)
+	// console.log(req)
 	res.redirect(`https://${CONNECT_BASE_URL}/JWT/JWTLoginService?JWTClientId=${CONNECT_CLIENT_ID}&JWTRedirectUrl=https://${BOKUTO_BASE_URL}/authenticated`)
 })
 
@@ -51,12 +72,6 @@ router.get('/authenticated', (req, res) => {
 		}).then((validatedResponse) => {
 			const jwtValid = validatedResponse.data.Result
 			if (jwtValid) {
-				let options = {
-					algorithms: 'HS256'
-					// expiresIn: '1d',
-					// issuer: `https://${CONNECT_BASE_URL}`
-				}
-
 				// This works
 				try {
 					let decodedData = jwt.decode(jwtToken)

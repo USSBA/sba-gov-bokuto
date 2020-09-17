@@ -24,8 +24,7 @@ How to launch a dev environment using EC2
 - Launch new EC2 Instance with Ubuntu Server
 - Run `apt-get update` and `apt-get upgrade` to bring you current
 - Install Node
-`curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash |`
-`sudo apt-get install -y nodejs`
+`curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash | sudo apt-get install -y nodejs`
 - Install node modules
 `npm install`
 - Install PM2 globally

@@ -1,8 +1,65 @@
 # Bokuto
-Bokuto is a self-contained Express microservice for end users to create, review, approve, and publish events through. It is designed to feed the Shinai lambda.  A [bokuto](https://en.wikipedia.org/wiki/Bokken) is a wooden practice sword that was the precursor to the bamboo shinai.  
+Bokuto is a self-contained Express microservice for end users to create, review, approve, and publish events
+through. It is designed to feed the Shinai lambda.  A [bokuto](https://en.wikipedia.org/wiki/Bokken) is a wooden
+practice sword that was the precursor to the bamboo shinai.
 
 ## Development
-Before getting started, make sure you have docker and docker-compose installed.  
+
+### Setup
+
+Before getting started, make sure you have docker and docker-compose installed.
+Also, make sure you have AWS credentials configured.
+
+If using an AWS profile make sure that the executing shell has the `AWS_PROFILE` environment variable set
+and make sure that the `docker-compose.yml` includes the following settings.
+```
+# docker-compose.yml
+
+# In the environment block of the bokuto service include the following:
+
+  environment:
+  - AWS_PROFILE=${AWS_PROFILE}
+
+# In the volumes block of the bokuto service include the following:
+
+  volumes:
+  - ~/.aws/:/root/.aws/:ro
+
+```
+
+If using an AWS AccessKey make sure that the executing shell has the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
+and `AWS_DEFAULT_REGION` environment variables exported.
+
+```
+# docker-compose.yml
+
+# In the environment block of the bokuto service include the following:
+
+  environment:
+  - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+  - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+  - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+
+```
+
+### Building and Running with Docker
+
+Once the docker-compose.yml and your local shell are configured we can proceed to
+building and running the docker container for testing your code changes.
+
+```
+
+# build and run the container
+docker-compose build
+docker-compose up
+
+
+# test
+curl -I http://localhost:3000/healthcheck
+
+```
+
+# Ryan you will need to adjust or remove the following
 
 Start a local version of DynamoDB using docker:
 `docker run -p 8000:8000 amazon/dynamodb-local`

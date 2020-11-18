@@ -1,4 +1,4 @@
-const cookieParser = require('cookie-parser')
+const cookieParser = require("cookie-parser");
 const { EXTERNAL_SESSION_SECRET } = process.env;
 
 module.exports = {
@@ -10,13 +10,13 @@ module.exports = {
     // console.log('Signed Cookises: ', cookieParser.signedCookies(req.cookies['eSessionCookie'], EXTERNAL_SESSION_SECRET))
     // console.log()
     if (!req.session.userId) {
-      console.log("Session missing!")
+      console.log("Session missing!");
       // return res.redirect('/signin')
     } else {
-      console.log("Session found!")
+      console.log("Session found!");
       // res.locals.user = req.session.userId;
     }
 
-    next()
-  }
-}
+    next();
+  },
+};

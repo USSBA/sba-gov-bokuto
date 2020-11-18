@@ -1,6 +1,7 @@
 version: "3.1"
 services:
   bokuto:
+    image: bokuto
     build:
       context: .
     environment:
@@ -8,12 +9,9 @@ services:
     - EVENTS_TABLE=dev-bokuto-events
     - SESSION_SECRET=docker
     - EXTERNAL_SESSION_SECRET=docker
-    #- AWS_REGION=us-east-1
-    #- AWS_DEFAULT_REGION=us-east-1
     - AWS_SDK_LOAD_CONFIG=1
     - AWS_PROFILE=${AWS_PROFILE}
     volumes:
     - ~/.aws/:/root/.aws/:ro
     ports:
     - 3000:3000
-

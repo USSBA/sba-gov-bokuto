@@ -12,11 +12,8 @@ repos:
     rev: v1.29.0
     hooks:
     -   id: terraform_fmt
-#-   repo: https://github.com/pre-commit/mirrors-jshint
-#    rev: v2.12.0
-#    hooks:
-#    -   id: jshint
-#-   repo: https://github.com/pre-commit/mirrors-prettier
-#    rev: v2.1.2
-#    hooks:
-#    -   id: prettier
+-   repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.1.2
+    hooks:
+    -   id: prettier
+        types: [javascript]

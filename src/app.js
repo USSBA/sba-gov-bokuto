@@ -55,14 +55,6 @@ const params = {
   TableName: EVENTS_TABLE,
 }
 
-dynamoDb.scan(params, function (err, data) {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log(data)
-  }
-})
-
 // Landing page with instructions
 app.get('/', function (request, response) {
   console.log('GET: Root route accessed')

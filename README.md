@@ -12,7 +12,7 @@ Also, make sure you have AWS credentials configured.
 
 If using an AWS profile make sure that the executing shell has the `AWS_PROFILE` environment variable set
 and make sure that the `docker-compose.yml` includes the following settings.
-```
+```yml
 # docker-compose.yml
 
 # In the environment block of the bokuto service include the following:
@@ -30,7 +30,7 @@ and make sure that the `docker-compose.yml` includes the following settings.
 If using an AWS AccessKey make sure that the executing shell has the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
 and `AWS_DEFAULT_REGION` environment variables exported.
 
-```
+```yml
 # docker-compose.yml
 
 # In the environment block of the bokuto service include the following:
@@ -47,7 +47,7 @@ and `AWS_DEFAULT_REGION` environment variables exported.
 Once the docker-compose.yml and your local shell are configured we can proceed to
 building and running the docker container for testing your code changes.
 
-```
+```bash
 
 # build and run the container
 docker-compose build

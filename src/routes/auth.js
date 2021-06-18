@@ -1,65 +1,68 @@
-const express = require('express')
-const usersRepo = require('../repositories/users')
+const express = require("express");
+const usersRepo = require("../repositories/users");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/signup", function(req, res) {
-	res.render("signup", { userid: req.session.userId, errormessage: "" })
-})
-
-router.post('/signup', async (req, res) => {
-	const { email, password, passwordConfirmation } = req.body;
-
-	const existingUser = await usersRepo.getOneBy({ email });
-	if (existingUser) {
-		return res.render('signup', { errormessage: "Email in use" })
-	}
-
-	if (password !== passwordConfirmation) {
-		return res.render('signup', { errormessage: "Passwords must match" })
-	}
-
-	// Create a user in our user repo to represent this person
-	const user = await usersRepo.create({ email, password, office
-	 });
-
-	// Store the id and office of that user inside the users cookie
-	req.session.userId = user.id;
-	req.session.userOffice = user.office;
-
-	console.log("New user registered")
-	res.render('index');
+router.get("/signup", function (req, res) {
+  res.render("signup", { userid: req.session.userId, errormessage: "" });
 });
-  
-router.get('/signout', (req, res) => {
-	req.session = null;
 
-	console.log("User logged out")
-	res.render('signin');
+router.post("/signup", async (req, res) => {
+  const { email, password, passwordConfirmation } = req.body;
+
+  const existingUser = await usersRepo.getOneBy({ email });
+  if (existingUser) {
+    return res.render("signup", { errormessage: "Email in use" });
+  }
+
+  if (password !== passwordConfirmation) {
+    return res.render("signup", { errormessage: "Passwords must match" });
+  }
+
+  // Create a user in our user repo to represent this person
+  const user = await usersRepo.create({
+    email,
+    password,
+    office,
+  });
+
+  // Store the id and office of that user inside the users cookie
+  req.session.userId = user.id;
+  req.session.userOffice = user.office;
+
+  console.log("New user registered");
+  res.render("index");
 });
-  
-router.get('/signin', (req, res) => {
-	res.render('signin', { errormessage: "" })
+
+router.get("/signout", (req, res) => {
+  req.session = null;
+
+  console.log("User logged out");
+  res.render("signin");
 });
-  
-router.post('/signin', async (req, res) => {
-	const { email, password } = req.body;
 
-	const user = await usersRepo.getOneBy({ email });
+router.get("/signin", (req, res) => {
+  res.render("signin", { errormessage: "" });
+});
 
-	if (!user) {
-		return res.render('signin', { errormessage: "Email not found" })
-	}
+router.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
 
-	if (user.password !== password) {
-		return res.render('signin', { errormessage: "Invalid password" })
-	}
+  const user = await usersRepo.getOneBy({ email });
 
-	// Store the id and office of that user inside the users cookie
-	req.session.userId = user.id;
-	req.session.userOffice = user.office;
+  if (!user) {
+    return res.render("signin", { errormessage: "Email not found" });
+  }
 
-	res.render('index');
+  if (user.password !== password) {
+    return res.render("signin", { errormessage: "Invalid password" });
+  }
+
+  // Store the id and office of that user inside the users cookie
+  req.session.userId = user.id;
+  req.session.userOffice = user.office;
+
+  res.render("index");
 });
 
 module.exports = router;

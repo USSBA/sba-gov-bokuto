@@ -1,44 +1,17 @@
 version: "3.1"
 services:
-  dynamodb:
-    container_name: dynamodb-local
-    hostname: dynamodb-local
-    image: amazon/dynamodb-local
-    ports:
-      - 8000:8000
-
-  server:
-    build: ./server
-    depends_on:
-      - "dynamodb"
-    deploy:
-      replicas: 2
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: 50M
-      restart_policy:
-        condition: on-failure
+  bokuto:
+    image: bokuto
+    build:
+      context: .
     environment:
-      - NODE_ENV=development
-    networks:
-      - backend
+    - NODE_ENV=local
+    - EVENTS_TABLE=dev-bokuto-events
+    - SESSION_SECRET=docker
+    - EXTERNAL_SESSION_SECRET=docker
+    - AWS_SDK_LOAD_CONFIG=1
+    - AWS_PROFILE=${AWS_PROFILE}
+    volumes:
+    - ~/.aws/:/root/.aws/:ro
     ports:
-      - 3000:3000
-
-networks:
-  backend:
-
-  # lambda:
-  #   image: amazon/lambda-build-node10.x
-  #   container_name: lambda-local
-  #   command: sam local start-lambda
-  #   ports:
-  #     - 7000:7000
-
-  # s3:
-  #   image: scality/s3server
-  #   container_name: s3-local
-  #   ports:
-  #     - 6000:6000
-
+    - 3000:3000

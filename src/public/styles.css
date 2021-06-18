@@ -4,7 +4,7 @@
     --breakpoint-medium: 768px;
     --breakpoint-large: 992px;
     --breakpoint-xlarge: 1200px;
-  
+
     /* Colors */
     --sbablue: #002e6d;
 }
@@ -145,7 +145,7 @@ td {
       /* width: 95vw; */
       /* 570 px */
     }
-  
+
     nav {
       font-size: 0.9rem;
     }
@@ -153,7 +153,7 @@ td {
     .horizontal {
         display: none;
     }
-    
+
     .logo {
         width: 50px;
     }
@@ -162,7 +162,7 @@ td {
         display: block;
     }
 }
-  
+
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
     body {

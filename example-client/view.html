@@ -1,79 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="Description" content="Create and manage U.S. Small Business Administration events">
-        <title>USSBA Events</title>
-        <link rel="stylesheet" type="text/css" href="public/styles.css">
-        <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
-    </head>
-    <body>
-        <header>
-            <nav>
-                <span id="menu-title"><a href="index.html"><img id="agency" src="public/agency-logo.png" alt="SBA Logo"></a></span>
-                <span id="menu-create"><a href="create.html">Create</a></span>
-                <span id="menu-view"><a href="view.html">View</a></span>
-                <span id="menu-approve"><a href="approve.html">Approve</a></span>
-                <span id="menu-recurring"><a href="login.html">Login</a></span>
-            </nav>
-        </header>
-        <main>
-            <h1>View Events</h1>
-            <p>You can track the progress of your events and update any of their information using the Modify link on the left.</p>
-            <table>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="Create and manage U.S. Small Business Administration events">
+    <title>USSBA Events</title>
+    <link rel="stylesheet" href="assets/css/uswds.min.css">
+    <link rel="stylesheet" href="assets/css/uswds.min.css.map">
+    <link rel="stylesheet" type="text/css" href="public/styles.css">
+    <script src="./assets/js/uswds-init.min.js"></script>
+    <script src="./assets/js/uswds.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <span id="menu-title"><a href="index.html"><img id="agency" src="public/agency-logo.png"
+                        alt="SBA Logo"></a></span>
+            <span id="menu-create"><a href="create.html">Create</a></span>
+            <span id="menu-view"><a href="view.html">View</a></span>
+            <span id="menu-approve"><a href="approve.html">Approve</a></span>
+            <span id="menu-recurring"><a href="login.html">Login</a></span>
+        </nav>
+    </header>
+    <main>
+        <h1>View Events</h1>
+        <p>You can track the progress of your events and update any of their information using the Modify link on the left.
+        </p>
+        <div class="usa-table-container--scrollable">
+            <table class="usa-table">
+                <caption>
+                    Events
+                </caption>
                 <thead>
                     <tr>
-                        <th scope="col">View</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">District Office</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Start Time</th>
-                        <th scope="col">End Time</th>
-                        <th scope="col">Status</th>
+                        <th data-sortable scope="col" role="columnheader">Name</th>
+                        <th data-sortable scope="col" role="columnheader">
+                            District Office
+                        </th>
+                        <th data-sortable scope="col" role="columnheader" aria-sort="descending">
+                            Start Time
+                        </th>
+                        <th data-sortable scope="col" role="columnheader">
+                            End Time
+                        </th>
+                        <th data-sortable scope="col" role="columnheader">
+                            Status
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="event-link"><a href="">Modify</a></td>
-                        <td class="event-name">Write a Business Plan While Square Dancing</td>
-                        <td class="event-districtoffice">Dallas/Fort Worth</td>
-                        <td class="event-startdate">05/27/2020</td>
-                        <td class="event-enddate">05/27/2020</td>
-                        <td class="event-starttime">09:45 AM</td>
-                        <td class="event-endtime">11:00 AM</td>
-                        <td class="event-status">Under Review</td>
+                    <tr data-row-id="0">
+                        <th class="description" scope="row" role="rowheader">Bob's Business Planning 101</th>
+                        <td class="address_city" data-sort-value="50">Dallas, Fort Worth</td>
+                        <td class="start_time" data-sort-value="331844400">Jun. 27, 1959</td>
+                        <td class="end_time" data-sort-value="327092400">Aug. 21, 1959</td>
+                        <td class="type" data-sort-value="active">Active</td>
                     </tr>
-                    <tr>
-                        <td class="event-link"><a href="">Modify</a></td>
-                        <td class="event-name">Write a Business Plan While Square Dancing</td>
-                        <td class="event-districtoffice">Dallas/Fort Worth</td>
-                        <td class="event-startdate">05/27/2020</td>
-                        <td class="event-enddate">05/27/2020</td>
-                        <td class="event-starttime">09:45 AM</td>
-                        <td class="event-endtime">11:00 AM</td>
-                        <td class="event-status">Under Review</td>
+                    <tr data-row-id="1">
+                        <th class="description" scope="row" role="rowheader">Bob's Business Planning 101</th>
+                        <td class="address_city" data-sort-value="50">Dallas, Fort Worth</td>
+                        <td class="start_time" data-sort-value="331844400">Jun. 27, 1959</td>
+                        <td class="end_time" data-sort-value="327092400">Aug. 21, 1959</td>
+                        <td class="type" data-sort-value="active">Active</td>
                     </tr>
-                    <tr>
-                        <td class="event-link"><a href="">Modify</a></td>
-                        <td class="event-name">Write a Business Plan While Square Dancing</td>
-                        <td class="event-districtoffice">Dallas/Fort Worth</td>
-                        <td class="event-startdate">05/27/2020</td>
-                        <td class="event-enddate">05/27/2020</td>
-                        <td class="event-starttime">09:45 AM</td>
-                        <td class="event-endtime">11:00 AM</td>
-                        <td class="event-status">Under Review</td>
+                    <tr data-row-id="2">
+                        <th class="description" scope="row" role="rowheader">Bob's Business Planning 101</th>
+                        <td class="address_city" data-sort-value="50">Dallas, Fort Worth</td>
+                        <td class="start_time" data-sort-value="331844400">Jun. 27, 1959</td>
+                        <td class="end_time" data-sort-value="327092400">Aug. 21, 1959</td>
+                        <td class="type" data-sort-value="active">Active</td>
+                    </tr>
+                    <tr data-row-id="3">
+                        <th class="description" scope="row" role="rowheader">Bob's Business Planning 101</th>
+                        <td class="address_city" data-sort-value="50">Dallas, Fort Worth</td>
+                        <td class="start_time" data-sort-value="331844400">Jun. 27, 1959</td>
+                        <td class="end_time" data-sort-value="327092400">Aug. 21, 1959</td>
+                        <td class="type" data-sort-value="active">Active</td>
+                    </tr>
+                    <tr data-row-id="4">
+                        <th class="description" scope="row" role="rowheader">Bob's Business Planning 101</th>
+                        <td class="address_city" data-sort-value="50">Dallas, Fort Worth</td>
+                        <td class="start_time" data-sort-value="331844400">Jun. 27, 1959</td>
+                        <td class="end_time" data-sort-value="327092400">Aug. 21, 1959</td>
+                        <td class="type" data-sort-value="active">Active</td>
                     </tr>
                 </tbody>
             </table>
-        </main>
-        <script>
-            var offset = new Date().getTimezoneOffset();
-            console.log(offset/60);
-        </script>
-        <footer>
-            <a href="https://www.sba.gov">U.S. Small Business Administration</a> | 409 3rd St, SW. Washington, DC 20416
-        </footer>
-    </body>
+            <div class="usa-sr-only usa-table__announcement-region" aria-live="polite">
+                <!-- this content will change when sort changes -->
+            </div>
+        </div>
+    </main>
+    <script>
+        var offset = new Date().getTimezoneOffset();
+        console.log(offset / 60);
+    </script>
+    <script>
+        fetch('https://eventadmin.ussba.io/api/events').then(function(response) {
+
+            // The API call was successful!
+            if (response.ok) {
+                return response.json();
+            }
+
+            // There was an error
+            return Promise.reject(response);
+
+        }).then(function(data) {
+            // This is the JSON from our response
+            console.log(data);
+            // data.Items.forEach((event, index) => {
+            //     const {
+            //         description,
+            //         address_city,
+            //         start_time,
+            //         end_time,
+            //         type
+            //     } = event;
+
+            //     document.querySelector(`[data-row-id="${index}"] .`).textContent = description;
+            //     document.querySelector(`[data-row-id="${index}"] .address_city`).textContent = address_city;
+            //     document.querySelector(`[data-row-id="${index}"] .start_time`).textContent = start_time;
+            //     document.querySelector(`[data-row-id="${index}"] .end_time`).textContent = end_time;
+            //     document.querySelector(`[data-row-id="${index}"] .type`).textContent = type;
+            // })
+            const neededFields = ['description', 'address_city'];
+
+            data.Items.forEach((event, index) => {
+                Object.keys(event).forEach((k) => {
+                    if (neededFields.includes(k)) {
+                        document.querySelector(`[data-row-id="${index}"] .${k}`).textContent = event[k];
+                    }
+                })
+            })
+
+
+            // Take the data the API sent me
+            // Look for the data-<whatever> marked HTML elements based off of keys on each object
+            // Fill in the text Content
+
+
+            // ((event, index) => {
+            //     const {
+            //         description,
+            //         address_city,
+            //         start_time,
+            //         end_time,
+            //         type
+            //     } = event;
+
+            //     document.querySelector(`[data-row-id="${index}"] .`).textContent = description;
+            //     document.querySelector(`[data-row-id="${index}"] .address_city`).textContent = address_city;
+            //     document.querySelector(`[data-row-id="${index}"] .start_time`).textContent = start_time;
+            //     document.querySelector(`[data-row-id="${index}"] .end_time`).textContent = end_time;
+            //     document.querySelector(`[data-row-id="${index}"] .type`).textContent = type;
+            // })
+
+        }).catch(function(err) {
+            // There was an error
+            console.warn('Something went wrong.', err);
+        });
+    </script>
+    <footer>
+        <a href="https://www.sba.gov">U.S. Small Business Administration</a> | 409 3rd St, SW. Washington, DC 20416
+    </footer>
+</body>
+
 </html>

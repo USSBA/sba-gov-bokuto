@@ -7,9 +7,7 @@
     <meta name="Description" content="Create and manage U.S. Small Business Administration events">
     <title>USSBA Events</title>
     <link rel="stylesheet" href="assets/css/uswds.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="public/styles.css"> -->
     <script src="./assets/js/uswds-init.min.js"></script>
-
     <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
 </head>
 
@@ -24,145 +22,54 @@
             <span id="menu-recurring"><a href="login.html">Login</a></span>
         </nav>
     </header>
-    <main>
-        <!-- <h1>Create an Event</h1>
-        <form action="" method="get">
-            <fieldset>
-                <legend>Title and Description</legend>
-                <label>Title</label>
-                <input type="text" id="sample-name-form">
-                <label>Description</label>
-                <textarea rows="5"></textarea>
-                <label>District Office</label>
-                <select>
-                    <option value="alabama">Alabama</option>
-                    <option value="alaska">Alaska</option>
-                    <option value="alaska">Arizona</option>
-                </select>
-            </fieldset>
-            <fieldset>
-                <legend>Time and Date</legend>
-                <label>Start Date</label>
-                <input type="date">
-                <label>End Date</label>
-                <input type="date">
-                <label>Start Time</label>
-                <input type="time">
-                <label>End Time</label>
-                <input type="time">
-                <label>Timezone</label>
-                <select>
-                    <option value="edt">Eastern Daylight Time (UTC -4)</option>
-                    <option value="cdt">Central Daylight Time (UTC -5)</option>
-                    <option value="mdt">Mountain Daylight Time (UTC -6)</option>
-                    <option value="mst">Mountain Standard Time (UTC -7)</option>
-                    <option value="pdt">Pacific Daylight Time (UTC -7)</option>
-                    <option value="akdt">Alaska Daylight Time (UTC -8)</option>
-                    <option value="hst">Hawaii Standard Time (UTC -10)</option>
-                </select>
-                <label>Type of Event?</label>
-                <select>
-                    <option value="in-person">In Person</option>
-                    <option value="online">Online</option>
-                </select>
-                <label>Recurring Event?</label>
-                <select>
-                    <option value="onetime">No</option>
-                    <option value="recurring">Yes</option>
-                </select>
-            </fieldset>
-            <fieldset>
-                <legend>Location</legend>
-                <label for="">Name of Location</label>
-                <input type="text" id="">
-                <label for="">Street 1</label>
-                <input type="text" id="">
-                <label for="">Street 2</label>
-                <input type="text" id="">
-                <label for="">City</label>
-                <input type="text" id="">
-                <label for="">State/Province</label>
-                <select>
-                    <option value="alabama">Alabama</option>
-                    <option value="alaska">Alaska</option>
-                    <option value="alaska">Arizona</option>
-                </select>
-                <label for="">Postal Code</label>
-                <input type="number" id="">
-            </fieldset>
-            <fieldset>
-                <legend>Contact Information</legend>
-                <label for="">Name</label>
-                <input type="text" id="sample-name-form">
-                <label for="">Email</label>
-                <input type="email" id="contact-email">
-                <label for="">Phone</label>
-                <input type="tel" id="contact-tel">
-                <label for="">Registration Link</label>
-                <input type="url" id="registration-url">
-                <label for="">Cost</label>
-                <input type="number" id="event-cost">
-            </fieldset>
-            <input type="submit" value="Submit">
-            <input type="submit" value="Save">
-        </form> -->
-        <h1>Create an Event</h1>
+    <main class="display-flex flex-column flex-align-center">
         <form class="usa-form usa-form--large">
             <fieldset class="usa-fieldset">
-                <legend class="usa-legend usa-legend--large">Mailing address</legend>
+                <legend class="usa-legend usa-legend--large">Create an Event</legend>
                 <p>
                     Required fields are marked with an asterisk (<abbr title="required" class="usa-hint usa-hint--required">*</abbr>).
                 </p>
+                <label class="usa-label" for="title">
+                    Name of event
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="title" name="title" type="text" required />
+
+                <label class="usa-label" for="description">
+                    Description
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="description" name="description" type="text" required />
+
                 <label class="usa-label" for="mailing-address-1">
                     Street address
                     <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                 </label>
-                <input class="usa-input" id="mailing-address-1" name="mailing-address-1" type="text" required />
+                <input
+                    class="usa-input"
+                    id="mailing-address-1"
+                    name="mailing-address-1"
+                    type="text"
+                    required
+                />
 
                 <div class="grid-row grid-gap">
                     <div class="mobile-lg:grid-col-8">
-                        <label class="usa-label" for="apt-suite-other">Unit type</label>
-                        <div class="usa-combo-box">
-                            <select class="usa-select" id="apt-suite-other" name="apt-suite-other">
-                                <option value>- Select -</option>
-                                <option value="APT">APT - Apartment</option>
-                                <option value="BSMT">BSMT - Basement</option>
-                                <option value="BLDG">BLDG - Building</option>
-                                <option value="DEPT">DEPT - Department</option>
-                                <option value="FL">FL - Floor</option>
-                                <option value="FRNT">FRNT - Front</option>
-                                <option value="HNGR">HNGR - Hanger</option>
-                                <option value="KEY">KEY - Key</option>
-                                <option value="LBBY">LBBY - Lobby</option>
-                                <option value="LOT">LOT - Lot</option>
-                                <option value="LOWR">LOWR - Lower</option>
-                                <option value="OFC">OFC - Office</option>
-                                <option value="OTHER">Other</option>
-                                <option value="PH">PH - Penthouse</option>
-                                <option value="PIER">PIER - Pier</option>
-                                <option value="REAR">REAR - Rear</option>
-                                <option value="RM">RM - Room</option>
-                                <option value="SIDE">SIDE - Side</option>
-                                <option value="SLIP">SLIP - Slip</option>
-                                <option value="SPC">SPC - Space</option>
-                                <option value="STOP">STOP - Stop</option>
-                                <option value="STE">STE - Suite</option>
-                                <option value="TRLR">TRLR - Trailer</option>
-                                <option value="UNAVAILABLE">Unable to determine</option>
-                                <option value="UNIT">UNIT - Unit</option>
-                                <option value="UPPR">UPPR - Upper</option>
-                            </select>
-                        </div>
+                    <label class="usa-label" for="city">City
+                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                    </label>
+                        <input class="usa-input" id="city" name="city" type="text" required />
                     </div>
                     <div class="mobile-lg:grid-col-4">
-                        <label class="usa-label" for="apt-floor-suite-no">Unit number</label>
-                        <input class="usa-input" id="apt-floor-suite-no" name="apt-floor-suite-no" type="text" />
+                    <label class="usa-label" for="apt-floor-suite-no">Unit number</label>
+                    <input
+                        class="usa-input"
+                        id="apt-floor-suite-no"
+                        name="apt-floor-suite-no"
+                        type="text"
+                    />
                     </div>
                 </div>
-
-                <label class="usa-label" for="city">City
-                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr></label>
-                <input class="usa-input" id="city" name="city" type="text" required />
 
                 <label class="usa-label" for="state">State
                     <abbr title="required" class="usa-hint usa-hint--required">*</abbr></label>
@@ -238,9 +145,47 @@
                 <label class="usa-label" for="zip">ZIP code
                     <abbr title="required" class="usa-hint usa-hint--required">*</abbr></label>
                 <input class="usa-input usa-input--medium" id="zip" name="zip" type="text" pattern="[\d]{5}(-[\d]{4})?" required />
+
+                <label class="usa-label" for="email"> Email address
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input
+                  class="usa-input"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocapitalize="off"
+                  autocorrect="off"
+                  required
+                />
+
+                <label class="usa-label" for="contact-name">
+                    Full name
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input
+                class="usa-input usa-input--xl"
+                id="contact-name"
+                name="contact-name"
+                type="text"
+                required
+                aria-required="true"
+                />
+
+                <label class="usa-label" for="phone-number">
+                    Phone number
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input
+                    class="usa-input"
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    required
+                />
             </fieldset>
         </form>
-
     </main>
     <footer>
         <a href="https://www.sba.gov">U.S. Small Business Administration</a> | 409 3rd St, SW. Washington, DC 20416

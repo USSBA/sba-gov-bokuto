@@ -66,31 +66,18 @@
                     <label class="usa-label" id="start-date-label" for="start-date">Start date</label>
                     <div class="usa-hint" id="start-date-hint">mm/dd/yyyy</div>
                     <div class="usa-date-picker">
-                        <input
-                            class="usa-input"
-                            id="start-date"
-                            name="appointment-date"
-                            type="text"
-                            aria-describedby="start-date-label start-date-hint"
-                        />
+                        <input class="usa-input" id="start-date" name="appointment-date" type="text" aria-describedby="start-date-label start-date-hint" />
                     </div>
 
                     <label class="usa-label" id="end-date-label" for="end-date">End date</label>
                     <div class="usa-hint" id="end-date-hint">mm/dd/yyyy</div>
                     <div class="usa-date-picker">
-                        <input
-                            class="usa-input"
-                            id="end-date"
-                            name="end-date"
-                            type="text"
-                            aria-describedby="end-date-label end-date-hint"
-                        />
+                        <input class="usa-input" id="end-date" name="end-date" type="text" aria-describedby="end-date-label end-date-hint" />
                     </div>
 
                     <div class="usa-form-group grid-row grid-gap">
                         <div class="desktop:grid-col-6">
-                            <label class="usa-label" id="start-time-label" for="start-time"
-                            >Start time</label
+                            <label class="usa-label" id="start-time-label" for="start-time">Start time</label
                             >
                             <div class="usa-hint" id="start-time-hint">hh:mm</div>
                             <div class="usa-time-picker">
@@ -134,7 +121,7 @@
                         <label class="usa-checkbox__label" for="check-historical-truth">
                             Recurring
                         </label>
-                    </div>
+                        </div>
                 </fieldset>
             </form>
 
@@ -150,30 +137,19 @@
                         Street address
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input
-                        class="usa-input"
-                        id="mailing-address-1"
-                        name="mailing-address-1"
-                        type="text"
-                        required
-                    />
+                    <input class="usa-input" id="mailing-address-1" name="mailing-address-1" type="text" required />
 
                     <div class="grid-row grid-gap">
                         <div class="desktop:grid-col-8">
-                        <label class="usa-label" for="city">
+                            <label class="usa-label" for="city">
                             City
                             <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                         </label>
                             <input class="usa-input" id="city" name="city" type="text" required />
                         </div>
                         <div class="desktop:grid-col-4">
-                        <label class="usa-label" for="apt-floor-suite-no">Unit number</label>
-                        <input
-                            class="usa-input"
-                            id="apt-floor-suite-no"
-                            name="apt-floor-suite-no"
-                            type="text"
-                        />
+                            <label class="usa-label" for="apt-floor-suite-no">Unit number</label>
+                            <input class="usa-input" id="apt-floor-suite-no" name="apt-floor-suite-no" type="text" />
                         </div>
                     </div>
 
@@ -257,60 +233,114 @@
                         Full name
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input
-                    class="usa-input usa-input--xl"
-                    id="contact-name"
-                    name="contact-name"
-                    type="text"
-                    required
-                    aria-required="true"
-                    />
+                    <input class="usa-input usa-input--xl" id="contact-name" name="contact-name" type="text" required aria-required="true" />
 
                     <label class="usa-label" for="email">
                         Email address
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input
-                        class="usa-input"
-                        id="email"
-                        name="email"
-                        type="email"
-                        autocapitalize="off"
-                        autocorrect="off"
-                        required
-                    />
+                    <input class="usa-input" id="email" name="email" type="email" autocapitalize="off" autocorrect="off" required />
 
                     <label class="usa-label" for="phone-number">
                         Phone number
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input
-                        class="usa-input"
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                        required
-                    />
+                    <input class="usa-input" id="phone" name="phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
 
                     <label class="usa-label" for="cost">Cost</label>
-                        <div>
+                    <div>
                         <div>$
                             <input type="usa-input number" aria-label="Enter amount in dollars" class="ds-c-field ds-c-field--currency" id="cost" name="cost">
                         </div>
                     </div>
                 </fieldset>
+                <div class="flash-container" hidden aria-hidden="true">
+                    <div class="usa-alert usa-alert--success usa-alert--slim">
+                        <div class="usa-alert__body">
+                            <p class="usa-alert__text">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </form>
-        </div>
+            </div>
+
     </main>
+    <script>
+        /**
+         * https://simonplend.com/how-to-use-fetch-to-post-form-data-as-json-to-your-api/
+         * Helper function for POSTing data as JSON with fetch.
+         *
+         * @param {Object} options
+         * @param {string} options.url - URL to POST data to
+         * @param {FormData} options.formData - `FormData` instance
+         * @return {Object} - Response body from URL that was POSTed to
+         */
+        async function postFormDataAsJson({
+            url,
+            formData
+        }) {
+            const plainFormData = Object.fromEntries(formData.entries());
+            const formDataJsonString = JSON.stringify(plainFormData);
+
+            const fetchOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: formDataJsonString,
+            };
+
+            const response = await fetch(url, fetchOptions);
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+            }
+
+            return response.json();
+        }
+
+        /**
+         * Event handler for a form submit event.
+         *
+         * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event
+         *
+         * @param {SubmitEvent} event
+         */
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const form = event.currentTarget;
+            const url = form.action;
+
+            try {
+                const formData = new FormData(form);
+                const responseData = await postFormDataAsJson({
+                    url,
+                    formData
+                });
+
+                console.log({
+                    responseData
+                });
+                // Need to flash success (or failure here)
+
+                event.target.reset();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        const eventForm = document.getElementById("event-form");
+        eventForm.addEventListener("submit", handleFormSubmit);
+    </script>
+    <script src="./assets/js/uswds.min.js"></script>
     <footer>
         <a href="https://www.sba.gov">U.S. Small Business Administration</a> | 409 3rd St, SW. Washington, DC 20416
     </footer>
-    <script>
-        var offset = new Date().getTimezoneOffset();
-        console.log(offset / 60);
-    </script>
-    <script src="./assets/js/uswds.min.js"></script>
 </body>
 
 </html>

@@ -77,7 +77,7 @@ export class Header extends HTMLElement {
                     <em class="usa-logo__text">
     
                         <a href="https://eventadmin.ussba.io/index.html" title="EventsAdmin.gov">
-                            <img alt="SBA Logo" src="assets/img/ussba-logo-isolated.svg">
+                            <img alt="SBA Logo" src="assets/img/ussba-logo-isolated.svg" height="44px">
                         </a>
     
                         <a href="https://eventadmin.ussba.io/index.html" title="EventsAdmin.gov">

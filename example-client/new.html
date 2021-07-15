@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Description" content="Create and manage U.S. Small Business Administration events">
     <title>USSBA Events</title>
-    <script src="assets/uswds-2.12.0/js/uswds-init.min.js"></script>
+    <script src="assets/js/uswds-init.min.js"></script>
     <link href="assets/css/uswds.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
     <script src="assets/js/uswds.min.js" defer></script>
@@ -16,39 +16,39 @@
 
 <body>
     <eventadmin-header></eventadmin-header>
-    <main class="grid-container">
-        <div class="grid-row grid-gap">
-            <form class="usa-form usa-form--large tablet:grid-col">
+    <main>
+        <div class="grid-container">
+            <form class="usa-form usa-form--large" id="event-form">
                 <fieldset class="usa-fieldset">
                     <legend class="usa-legend usa-legend--large">Create an Event</legend>
                     <p>
                         Required fields are marked with an asterisk (<abbr title="required" class="usa-hint usa-hint--required">*</abbr>).
                     </p>
 
-                    <label class="usa-label" for="title">
+                    <label class="usa-label" for="event_title">
                         Name of event
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="title" name="title" type="text" required />
+                    <input class="usa-input" id="event_title" name="event_title" type="text" required />
 
-                    <label class="usa-label" for="description">
+                    <label class="usa-label" for="event_description">
                         Description
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="description" name="description" type="text" required />
+                    <input class="usa-input" id="event_description" name="event_description" type="text" required />
 
-                    <label class="usa-label" for="district-office">
+                    <label class="usa-label" for="district_office">
                         District Office
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="district-office" name="district-office" type="text" required />
+                    <input class="usa-input" id="district_office" name="district_office" type="text" required />
 
-                    <label class="usa-label" for="attendance-type">
+                    <label class="usa-label" for="event_type">
                         Attendance type
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
                     <div class="usa-combo-box">
-                        <select class="usa-select" id="attendance-type" name="attendance-type" required>
+                        <select class="usa-select" id="event_type" name="event_type" required>
                             <option value>- Select -</option>
                             <option value="AL">In-person</option>
                             <option value="AK">Online</option>
@@ -56,76 +56,85 @@
                         </select>
                     </div>
 
-                    <label class="usa-label" id="start-date-label" for="start-date">Start date</label>
+                    <label class="usa-label" id="start-date-label" for="time_start_date">Start date</label>
                     <div class="usa-hint" id="start-date-hint">mm/dd/yyyy</div>
                     <div class="usa-date-picker">
-                        <input class="usa-input" id="start-date" name="appointment-date" type="text" aria-describedby="start-date-label start-date-hint" />
+                        <input class="usa-input" id="time_start_date" name="time_start_date" type="text" aria-describedby="start-date-label start-date-hint" />
                     </div>
 
-                    <label class="usa-label" id="end-date-label" for="end-date">End date</label>
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" id="start-time-label" for="start_time">Start time</label>
+                        <div class="usa-hint" id="start-time-hint">hh:mm</div>
+                        <div class="usa-time-picker">
+                            <input class="usa-input" id="start_time" name="start_time" type="text" aria-describedby="start-time-label start-time-hint" />
+                        </div>
+                    </div>
+
+                    <label class="usa-label" id="end-date-label" for="time_end_date">End date</label>
                     <div class="usa-hint" id="end-date-hint">mm/dd/yyyy</div>
                     <div class="usa-date-picker">
-                        <input class="usa-input" id="end-date" name="end-date" type="text" aria-describedby="end-date-label end-date-hint" />
+                        <input class="usa-input" id="time_end_date" name="time_end_date" type="text" aria-describedby="end-date-label end-date-hint" />
                     </div>
 
                     <div class="usa-form-group grid-row grid-gap">
-                        <div class="desktop:grid-col-6">
-                            <label class="usa-label" id="start-time-label" for="start-time">Start time</label>
-                            <div class="usa-hint" id="start-time-hint">hh:mm</div>
-                            <div class="usa-time-picker">
-                                <input class="usa-input" id="start-time" name="start-time" type="text" aria-describedby="start-time-label start-time-hint" />
-                            </div>
-                        </div>
+
 
                         <div class="desktop:grid-col-6">
-                            <label class="usa-label" id="end-time-label" for="end-time">End time</label>
+                            <label class="usa-label" id="end-time-label" for="time_end_time">End time</label>
                             <div class="usa-hint" id="end-time-hint">hh:mm</div>
                             <div class="usa-time-picker">
-                                <input class="usa-input" id="end-time" name="end-time" type="text" aria-describedby="end-time-label end-time-hint" />
+                                <input class="usa-input" id="time_end_time" name="time_end_time" type="text" aria-describedby="end-time-label end-time-hint" />
                             </div>
                         </div>
                     </div>
 
                     <legend class="usa-legend">Recurring</legend>
                     <div class="usa-checkbox">
-                        <input class="usa-checkbox__input" id="check-historical-truth" type="checkbox" name="historical-figures" value="sojourner-truth" checked />
-                        <label class="usa-checkbox__label" for="check-historical-truth">
+                        <input class="usa-checkbox__input" id="recurring" type="checkbox" name="recurring" value="recurring" />
+                        <label class="usa-checkbox__label" for="recurring">
                             Recurring
                         </label>
                     </div>
+                    <div class="" hidden aria-hidden="true">
+                        <!-- Hidden fields for recurrence here -->
+                        <!-- recurring -->
+                        <!-- recurring_increment -->
+                        <!-- recurring_time_end_date -->
+                        <!-- recurring_time_end_time -->
+                    </div>
                 </fieldset>
                 <fieldset class="usa-fieldset">
-                    <label class="usa-label" for="location">
+                    <label class="usa-label" for="location_name">
                         Name of location
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="location" name="location" type="text" required />
+                    <input class="usa-input" id="location_name" name="location_name" type="text" required />
 
-                    <label class="usa-label" for="mailing-address-1">
+                    <label class="usa-label" for="location_address_1">
                         Street address
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="mailing-address-1" name="mailing-address-1" type="text" required />
+                    <input class="usa-input" id="location_address_1" name="location_address_1" type="text" required />
 
                     <div class="grid-row grid-gap">
                         <div class="desktop:grid-col-8">
-                            <label class="usa-label" for="city">
+                            <label class="usa-label" for="location_city">
                                 City
                                 <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                             </label>
-                            <input class="usa-input" id="city" name="city" type="text" required />
+                            <input class="usa-input" id="location_city" name="location_city" type="text" required />
                         </div>
                         <div class="desktop:grid-col-4">
-                            <label class="usa-label" for="apt-floor-suite-no">Unit number</label>
-                            <input class="usa-input" id="apt-floor-suite-no" name="apt-floor-suite-no" type="text" />
+                            <label class="usa-label" for="location_street_2">Unit number</label>
+                            <input class="usa-input" id="location_street_2" name="location_street_2" type="text" />
                         </div>
                     </div>
 
-                    <label class="usa-label" for="state">State
+                    <label class="usa-label" for="location_state">State
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
                     <div class="usa-combo-box">
-                        <select class="usa-select" id="state" name="state" required>
+                        <select class="usa-select" id="location_state" name="location_state" required>
                             <option value>- Select -</option>
                             <option value="AL">AL - Alabama</option>
                             <option value="AK">AK - Alaska</option>
@@ -193,35 +202,36 @@
                         </select>
                     </div>
 
-                    <label class="usa-label" for="zip">ZIP code
+                    <label class="usa-label" for="location_zip">ZIP code
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr></label>
-                    <input class="usa-input usa-input--medium" id="zip" name="zip" type="text" pattern="[\d]{5}(-[\d]{4})?" required />
+                    <input class="usa-input usa-input--medium" id="location_zip" name="location_zip" type="text" pattern="[\d]{5}(-[\d]{4})?" required />
 
-                    <label class="usa-label" for="contact-name">
-                        Full name
+                    <label class="usa-label" for="contact_name">
+                        Contact name
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input usa-input--xl" id="contact-name" name="contact-name" type="text" required aria-required="true" />
+                    <input class="usa-input usa-input--xl" id="contact_name" name="contact_name" type="text" required aria-required="true" />
 
-                    <label class="usa-label" for="email">
+                    <label class="usa-label" for="contact_email">
                         Email address
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="email" name="email" type="email" autocapitalize="off" autocorrect="off" required />
+                    <input class="usa-input" id="contact_email" name="contact_email" type="email" autocapitalize="off" autocorrect="off" required />
 
-                    <label class="usa-label" for="phone-number">
+                    <label class="usa-label" for="contact_phone">
                         Phone number
                         <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                     </label>
-                    <input class="usa-input" id="phone" name="phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
+                    <input class="usa-input" id="contact_phone" name="contact_phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
 
-                    <label class="usa-label" for="cost">Cost</label>
+                    <label class="usa-label" for="event_cost">Cost</label>
                     <div>
                         <div>$
-                            <input type="usa-input number" aria-label="Enter amount in dollars" class="ds-c-field ds-c-field--currency" id="cost" name="cost">
+                            <input type="usa-input number" aria-label="Enter amount in dollars" class="ds-c-field ds-c-field--currency" id="event_cost" name="event_cost">
                         </div>
                     </div>
                 </fieldset>
+                <button class="usa-button" type="submit">Create Event</button>
                 <div class="flash-container" hidden aria-hidden="true">
                     <div class="usa-alert usa-alert--success usa-alert--slim">
                         <div class="usa-alert__body">
@@ -295,7 +305,7 @@
                     responseData
                 });
                 // Need to flash success (or failure here)
-
+                // event.target.querySelector('flash-container')
                 event.target.reset();
             } catch (error) {
                 console.error(error);

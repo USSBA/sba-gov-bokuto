@@ -111,7 +111,7 @@ export class Header extends HTMLElement {
                             </a>
                         </li>
                         <li class="usa-nav__primary-item">
-                            <a href="https://eventadmin.ussba.io/approve.html" class="usa-nav__link">
+                            <a href="https://eventadmin.ussba.io/review.html" class="usa-nav__link">
                                 <span> Review </span>
                             </a>
                         </li>

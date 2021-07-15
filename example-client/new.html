@@ -9,6 +9,7 @@
     <title>USSBA Events</title>
     <script src="assets/js/uswds-init.min.js"></script>
     <link href="assets/css/uswds.min.css" rel="stylesheet">
+    <link href="public/styles.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
     <script src="assets/js/uswds.min.js" defer></script>
     <script type="module" src="components/header.js" defer></script>
@@ -16,50 +17,62 @@
 
 <body>
     <eventadmin-header></eventadmin-header>
-    <main>
-        <div class="grid-container">
-            <form class="usa-form usa-form--large" id="event-form">
-                <fieldset class="usa-fieldset">
-                    <legend class="usa-legend usa-legend--large">Create an Event</legend>
-                    <p>
-                        Required fields are marked with an asterisk (<abbr title="required" class="usa-hint usa-hint--required">*</abbr>).
-                    </p>
+    <main class="grid-container">
+        <form action="https://eventadmin.ussba.io/api/events" class="usa-form usa-form--large" id="event-form">
+            <fieldset class="usa-fieldset">
+                <legend class="usa-legend usa-legend--large">Create an Event</legend>
+                <p>
+                    Required fields are marked with an asterisk (<abbr title="required" class="usa-hint usa-hint--required">*</abbr>).
+                </p>
 
-                    <label class="usa-label" for="event_title">
-                        Name of event
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="event_title" name="event_title" type="text" required />
+                <label class="usa-label" for="event_title">
+                    Name of event
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="event_title" name="event_title" type="text" required />
 
-                    <label class="usa-label" for="event_description">
-                        Description
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="event_description" name="event_description" type="text" required />
+                <label class="usa-label" for="event_description">
+                    Description
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="event_description" name="event_description" type="text" required />
 
-                    <label class="usa-label" for="district_office">
-                        District Office
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="district_office" name="district_office" type="text" required />
+                <label class="usa-label" for="district_office">
+                    District Office
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="district_office" name="district_office" type="text" required />
 
-                    <label class="usa-label" for="event_type">
-                        Attendance type
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <div class="usa-combo-box">
-                        <select class="usa-select" id="event_type" name="event_type" required>
-                            <option value>- Select -</option>
-                            <option value="AL">In-person</option>
-                            <option value="AK">Online</option>
-                            <option value="AK">Both - In-person & Online</option>
-                        </select>
+                <div class="grid-row grid-gap">
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" for="event_type">
+                            Attendance type
+                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                        </label>
+                        <div class="usa-combo-box">
+                            <select class="usa-select" id="event_type" name="event_type" required>
+                                <option value>- Select -</option>
+                                <option value="AL">In-person</option>
+                                <option value="AK">Online</option>
+                                <option value="AK">Both - In-person & Online</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" for="event_cost">Cost ($)</label>
+                        <div class="usa-input-group">
+                            <input aria-label="Enter amount in dollars" class="usa-input" id="event_cost" inputmode="numeric" name="event_cost" type="number" />
+                        </div>
+                    </div>
+                </div>
 
-                    <label class="usa-label" id="start-date-label" for="time_start_date">Start date</label>
-                    <div class="usa-hint" id="start-date-hint">mm/dd/yyyy</div>
-                    <div class="usa-date-picker">
-                        <input class="usa-input" id="time_start_date" name="time_start_date" type="text" aria-describedby="start-date-label start-date-hint" />
+                <div class="grid-row grid-gap">
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" id="start-date-label" for="time_start_date">Start date</label>
+                        <div class="usa-hint" id="start-date-hint">mm/dd/yyyy</div>
+                        <div class="usa-date-picker">
+                            <input class="usa-input" id="time_start_date" name="time_start_date" type="text" aria-describedby="start-date-label start-date-hint" />
+                        </div>
                     </div>
 
                     <div class="desktop:grid-col-6">
@@ -69,168 +82,172 @@
                             <input class="usa-input" id="start_time" name="start_time" type="text" aria-describedby="start-time-label start-time-hint" />
                         </div>
                     </div>
+                </div>
 
-                    <label class="usa-label" id="end-date-label" for="time_end_date">End date</label>
-                    <div class="usa-hint" id="end-date-hint">mm/dd/yyyy</div>
-                    <div class="usa-date-picker">
-                        <input class="usa-input" id="time_end_date" name="time_end_date" type="text" aria-describedby="end-date-label end-date-hint" />
-                    </div>
-
-                    <div class="usa-form-group grid-row grid-gap">
-
-
-                        <div class="desktop:grid-col-6">
-                            <label class="usa-label" id="end-time-label" for="time_end_time">End time</label>
-                            <div class="usa-hint" id="end-time-hint">hh:mm</div>
-                            <div class="usa-time-picker">
-                                <input class="usa-input" id="time_end_time" name="time_end_time" type="text" aria-describedby="end-time-label end-time-hint" />
-                            </div>
+                <div class="grid-row grid-gap">
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" id="end-date-label" for="time_end_date">End date</label>
+                        <div class="usa-hint" id="end-date-hint">mm/dd/yyyy</div>
+                        <div class="usa-date-picker">
+                            <input class="usa-input" id="time_end_date" name="time_end_date" type="text" aria-describedby="end-date-label end-date-hint" />
                         </div>
                     </div>
 
-                    <legend class="usa-legend">Recurring</legend>
-                    <div class="usa-checkbox">
-                        <input class="usa-checkbox__input" id="recurring" type="checkbox" name="recurring" value="recurring" />
-                        <label class="usa-checkbox__label" for="recurring">
-                            Recurring
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" id="end-time-label" for="time_end_time">End time</label>
+                        <div class="usa-hint" id="end-time-hint">hh:mm</div>
+                        <div class="usa-time-picker">
+                            <input class="usa-input" id="time_end_time" name="time_end_time" type="text" aria-describedby="end-time-label end-time-hint" />
+                        </div>
+                    </div>
+                </div>
+
+                <legend class="usa-legend">Is the event recurring?</legend>
+                <div class="usa-checkbox">
+                    <input class="usa-checkbox__input" id="recurring" type="checkbox" name="recurring" value="recurring" />
+                    <label class="usa-checkbox__label" for="recurring">
+                        Recurring
+                    </label>
+                </div>
+                <div class="" hidden aria-hidden="true">
+                    <!-- Hidden fields for recurrence here -->
+                    <!-- recurring -->
+                    <!-- recurring_increment -->
+                    <!-- recurring_time_end_date -->
+                    <!-- recurring_time_end_time -->
+                </div>
+            </fieldset>
+            <fieldset class="usa-fieldset">
+                <label class="usa-label" for="location_name">
+                    Name of location
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="location_name" name="location_name" type="text" required />
+
+                <label class="usa-label" for="location_address_1">
+                    Street address
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input" id="location_address_1" name="location_address_1" type="text" required />
+
+                <div class="grid-row grid-gap">
+                    <div class="desktop:grid-col-8">
+                        <label class="usa-label" for="location_city">
+                            City
+                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
                         </label>
+                        <input class="usa-input" id="location_city" name="location_city" type="text" required />
                     </div>
-                    <div class="" hidden aria-hidden="true">
-                        <!-- Hidden fields for recurrence here -->
-                        <!-- recurring -->
-                        <!-- recurring_increment -->
-                        <!-- recurring_time_end_date -->
-                        <!-- recurring_time_end_time -->
+                    <div class="desktop:grid-col-4">
+                        <label class="usa-label" for="location_street_2">Unit number</label>
+                        <input class="usa-input" id="location_street_2" name="location_street_2" type="text" />
                     </div>
-                </fieldset>
-                <fieldset class="usa-fieldset">
-                    <label class="usa-label" for="location_name">
-                        Name of location
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="location_name" name="location_name" type="text" required />
+                </div>
 
-                    <label class="usa-label" for="location_address_1">
-                        Street address
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="location_address_1" name="location_address_1" type="text" required />
-
-                    <div class="grid-row grid-gap">
-                        <div class="desktop:grid-col-8">
-                            <label class="usa-label" for="location_city">
-                                City
-                                <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                            </label>
-                            <input class="usa-input" id="location_city" name="location_city" type="text" required />
-                        </div>
-                        <div class="desktop:grid-col-4">
-                            <label class="usa-label" for="location_street_2">Unit number</label>
-                            <input class="usa-input" id="location_street_2" name="location_street_2" type="text" />
-                        </div>
-                    </div>
-
-                    <label class="usa-label" for="location_state">State
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <div class="usa-combo-box">
-                        <select class="usa-select" id="location_state" name="location_state" required>
-                            <option value>- Select -</option>
-                            <option value="AL">AL - Alabama</option>
-                            <option value="AK">AK - Alaska</option>
-                            <option value="AS">AS - American Samoa</option>
-                            <option value="AZ">AZ - Arizona</option>
-                            <option value="AR">AR - Arkansas</option>
-                            <option value="CA">CA - California</option>
-                            <option value="CO">CO - Colorado</option>
-                            <option value="CT">CT - Connecticut</option>
-                            <option value="DE">DE - Delaware</option>
-                            <option value="DC">DC - District of Columbia</option>
-                            <option value="FL">FL - Florida</option>
-                            <option value="GA">GA - Georgia</option>
-                            <option value="GU">GU - Guam</option>
-                            <option value="HI">HI - Hawaii</option>
-                            <option value="ID">ID - Idaho</option>
-                            <option value="IL">IL - Illinois</option>
-                            <option value="IN">IN - Indiana</option>
-                            <option value="IA">IA - Iowa</option>
-                            <option value="KS">KS - Kansas</option>
-                            <option value="KY">KY - Kentucky</option>
-                            <option value="LA">LA - Louisiana</option>
-                            <option value="ME">ME - Maine</option>
-                            <option value="MD">MD - Maryland</option>
-                            <option value="MA">MA - Massachusetts</option>
-                            <option value="MI">MI - Michigan</option>
-                            <option value="MN">MN - Minnesota</option>
-                            <option value="MS">MS - Mississippi</option>
-                            <option value="MO">MO - Missouri</option>
-                            <option value="MT">MT - Montana</option>
-                            <option value="NE">NE - Nebraska</option>
-                            <option value="NV">NV - Nevada</option>
-                            <option value="NH">NH - New Hampshire</option>
-                            <option value="NJ">NJ - New Jersey</option>
-                            <option value="NM">NM - New Mexico</option>
-                            <option value="NY">NY - New York</option>
-                            <option value="NC">NC - North Carolina</option>
-                            <option value="ND">ND - North Dakota</option>
-                            <option value="MP">MP - Northern Mariana Islands</option>
-                            <option value="OH">OH - Ohio</option>
-                            <option value="OK">OK - Oklahoma</option>
-                            <option value="OR">OR - Oregon</option>
-                            <option value="PA">PA - Pennsylvania</option>
-                            <option value="PR">PR - Puerto Rico</option>
-                            <option value="RI">RI - Rhode Island</option>
-                            <option value="SC">SC - South Carolina</option>
-                            <option value="SD">SD - South Dakota</option>
-                            <option value="TN">TN - Tennessee</option>
-                            <option value="TX">TX - Texas</option>
-                            <option value="UM">UM - United States Minor Outlying Islands</option>
-                            <option value="UT">UT - Utah</option>
-                            <option value="VT">VT - Vermont</option>
-                            <option value="VI">VI - Virgin Islands</option>
-                            <option value="VA">VA - Virginia</option>
-                            <option value="WA">WA - Washington</option>
-                            <option value="WV">WV - West Virginia</option>
-                            <option value="WI">WI - Wisconsin</option>
-                            <option value="WY">WY - Wyoming</option>
-                            <option value="AA">AA - Armed Forces Americas</option>
-                            <option value="AE">AE - Armed Forces Africa</option>
-                            <option value="AE">AE - Armed Forces Canada</option>
-                            <option value="AE">AE - Armed Forces Europe</option>
-                            <option value="AE">AE - Armed Forces Middle East</option>
-                            <option value="AP">AP - Armed Forces Pacific</option>
-                        </select>
-                    </div>
-
-                    <label class="usa-label" for="location_zip">ZIP code
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr></label>
-                    <input class="usa-input usa-input--medium" id="location_zip" name="location_zip" type="text" pattern="[\d]{5}(-[\d]{4})?" required />
-
-                    <label class="usa-label" for="contact_name">
-                        Contact name
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input usa-input--xl" id="contact_name" name="contact_name" type="text" required aria-required="true" />
-
-                    <label class="usa-label" for="contact_email">
-                        Email address
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="contact_email" name="contact_email" type="email" autocapitalize="off" autocorrect="off" required />
-
-                    <label class="usa-label" for="contact_phone">
-                        Phone number
-                        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                    </label>
-                    <input class="usa-input" id="contact_phone" name="contact_phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
-
-                    <label class="usa-label" for="event_cost">Cost</label>
-                    <div>
-                        <div>$
-                            <input type="usa-input number" aria-label="Enter amount in dollars" class="ds-c-field ds-c-field--currency" id="event_cost" name="event_cost">
+                <!-- Why doesn't this grid-row work with grid-col-6? -->
+                <div glass="grid-row grid-gap">
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" for="location_state">State
+                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                        </label>
+                        <div class="usa-combo-box">
+                            <select class="usa-select" id="location_state" name="location_state" required>
+                                <option value>- Select -</option>
+                                <option value="AL">AL - Alabama</option>
+                                <option value="AK">AK - Alaska</option>
+                                <option value="AS">AS - American Samoa</option>
+                                <option value="AZ">AZ - Arizona</option>
+                                <option value="AR">AR - Arkansas</option>
+                                <option value="CA">CA - California</option>
+                                <option value="CO">CO - Colorado</option>
+                                <option value="CT">CT - Connecticut</option>
+                                <option value="DE">DE - Delaware</option>
+                                <option value="DC">DC - District of Columbia</option>
+                                <option value="FL">FL - Florida</option>
+                                <option value="GA">GA - Georgia</option>
+                                <option value="GU">GU - Guam</option>
+                                <option value="HI">HI - Hawaii</option>
+                                <option value="ID">ID - Idaho</option>
+                                <option value="IL">IL - Illinois</option>
+                                <option value="IN">IN - Indiana</option>
+                                <option value="IA">IA - Iowa</option>
+                                <option value="KS">KS - Kansas</option>
+                                <option value="KY">KY - Kentucky</option>
+                                <option value="LA">LA - Louisiana</option>
+                                <option value="ME">ME - Maine</option>
+                                <option value="MD">MD - Maryland</option>
+                                <option value="MA">MA - Massachusetts</option>
+                                <option value="MI">MI - Michigan</option>
+                                <option value="MN">MN - Minnesota</option>
+                                <option value="MS">MS - Mississippi</option>
+                                <option value="MO">MO - Missouri</option>
+                                <option value="MT">MT - Montana</option>
+                                <option value="NE">NE - Nebraska</option>
+                                <option value="NV">NV - Nevada</option>
+                                <option value="NH">NH - New Hampshire</option>
+                                <option value="NJ">NJ - New Jersey</option>
+                                <option value="NM">NM - New Mexico</option>
+                                <option value="NY">NY - New York</option>
+                                <option value="NC">NC - North Carolina</option>
+                                <option value="ND">ND - North Dakota</option>
+                                <option value="MP">MP - Northern Mariana Islands</option>
+                                <option value="OH">OH - Ohio</option>
+                                <option value="OK">OK - Oklahoma</option>
+                                <option value="OR">OR - Oregon</option>
+                                <option value="PA">PA - Pennsylvania</option>
+                                <option value="PR">PR - Puerto Rico</option>
+                                <option value="RI">RI - Rhode Island</option>
+                                <option value="SC">SC - South Carolina</option>
+                                <option value="SD">SD - South Dakota</option>
+                                <option value="TN">TN - Tennessee</option>
+                                <option value="TX">TX - Texas</option>
+                                <option value="UM">UM - United States Minor Outlying Islands</option>
+                                <option value="UT">UT - Utah</option>
+                                <option value="VT">VT - Vermont</option>
+                                <option value="VI">VI - Virgin Islands</option>
+                                <option value="VA">VA - Virginia</option>
+                                <option value="WA">WA - Washington</option>
+                                <option value="WV">WV - West Virginia</option>
+                                <option value="WI">WI - Wisconsin</option>
+                                <option value="WY">WY - Wyoming</option>
+                                <option value="AA">AA - Armed Forces Americas</option>
+                                <option value="AE">AE - Armed Forces Africa</option>
+                                <option value="AE">AE - Armed Forces Canada</option>
+                                <option value="AE">AE - Armed Forces Europe</option>
+                                <option value="AE">AE - Armed Forces Middle East</option>
+                                <option value="AP">AP - Armed Forces Pacific</option>
+                            </select>
                         </div>
                     </div>
-                </fieldset>
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" for="location_zip">ZIP code
+                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr></label>
+                        <input class="usa-input usa-input--medium" id="location_zip" name="location_zip" type="text" pattern="[\d]{5}(-[\d]{4})?" required />
+                    </div>
+                </div>
+
+                <label class="usa-label" for="contact_name">
+                    Contact name
+                    <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                </label>
+                <input class="usa-input usa-input--xl" id="contact_name" name="contact_name" type="text" required aria-required="true" />
+
+                <div class="grid-row">
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" for="contact_email">
+                            Email address
+                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                        </label>
+                        <input class="usa-input" id="contact_email" name="contact_email" type="email" autocapitalize="off" autocorrect="off" required />
+                    </div>
+                    <div class="desktop:grid-col-6">
+                        <label class="usa-label" for="contact_phone">
+                            Phone number
+                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                        </label>
+                        <input class="usa-input" id="contact_phone" name="contact_phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
+                    </div>
+                </div>
                 <button class="usa-button" type="submit">Create Event</button>
                 <div class="flash-container" hidden aria-hidden="true">
                     <div class="usa-alert usa-alert--success usa-alert--slim">
@@ -241,9 +258,8 @@
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-
+            </fieldset>
+        </form>
     </main>
     <script>
         /**
@@ -315,7 +331,6 @@
         const eventForm = document.getElementById("event-form");
         eventForm.addEventListener("submit", handleFormSubmit);
     </script>
-    <script src="./assets/js/uswds.min.js"></script>
     <footer>
         <a href="https://www.sba.gov">U.S. Small Business Administration</a> | 409 3rd St, SW. Washington, DC 20416
     </footer>

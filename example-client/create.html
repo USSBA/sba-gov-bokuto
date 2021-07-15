@@ -3,19 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Description" content="Create and manage U.S. Small Business Administration events">
     <title>USSBA Events</title>
-    <link rel="stylesheet" href="assets/css/uswds.min.css">
-    <script src="./assets/js/uswds-init.min.js"></script>
+    <script src="assets/uswds-2.12.0/js/uswds-init.min.js"></script>
+    <link href="assets/css/uswds.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico">
+    <script src="assets/js/uswds.min.js" defer></script>
+    <script type="module" src="header.js" defer></script>
 </head>
 
 <body>
     <header>
         <nav>
             <span id="menu-title"><a href="index.html">
-                <img id="agency" src="public/agency-logo.png" alt="SBA Logo"></a>
+                    <img id="agency" src="public/agency-logo.png" alt="SBA Logo"></a>
             </span>
             <span id="menu-create"><a href="create.html">Create</a></span>
             <span id="menu-view"><a href="view.html">View</a></span>
@@ -77,51 +80,29 @@
 
                     <div class="usa-form-group grid-row grid-gap">
                         <div class="desktop:grid-col-6">
-                            <label class="usa-label" id="start-time-label" for="start-time">Start time</label
-                            >
+                            <label class="usa-label" id="start-time-label" for="start-time">Start time</label>
                             <div class="usa-hint" id="start-time-hint">hh:mm</div>
                             <div class="usa-time-picker">
-                            <input
-                                class="usa-input"
-                                id="start-time"
-                                name="start-time"
-                                type="text"
-                                aria-describedby="start-time-label start-time-hint"
-                            />
+                                <input class="usa-input" id="start-time" name="start-time" type="text" aria-describedby="start-time-label start-time-hint" />
                             </div>
                         </div>
 
                         <div class="desktop:grid-col-6">
-                            <label class="usa-label" id="end-time-label" for="end-time"
-                            >End time</label
-                            >
+                            <label class="usa-label" id="end-time-label" for="end-time">End time</label>
                             <div class="usa-hint" id="end-time-hint">hh:mm</div>
                             <div class="usa-time-picker">
-                            <input
-                                class="usa-input"
-                                id="end-time"
-                                name="end-time"
-                                type="text"
-                                aria-describedby="end-time-label end-time-hint"
-                            />
+                                <input class="usa-input" id="end-time" name="end-time" type="text" aria-describedby="end-time-label end-time-hint" />
                             </div>
                         </div>
                     </div>
 
                     <legend class="usa-legend">Recurring</legend>
                     <div class="usa-checkbox">
-                        <input
-                            class="usa-checkbox__input"
-                            id="check-historical-truth"
-                            type="checkbox"
-                            name="historical-figures"
-                            value="sojourner-truth"
-                            checked
-                        />
+                        <input class="usa-checkbox__input" id="check-historical-truth" type="checkbox" name="historical-figures" value="sojourner-truth" checked />
                         <label class="usa-checkbox__label" for="check-historical-truth">
                             Recurring
                         </label>
-                        </div>
+                    </div>
                 </fieldset>
             </form>
 
@@ -142,9 +123,9 @@
                     <div class="grid-row grid-gap">
                         <div class="desktop:grid-col-8">
                             <label class="usa-label" for="city">
-                            City
-                            <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
-                        </label>
+                                City
+                                <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+                            </label>
                             <input class="usa-input" id="city" name="city" type="text" required />
                         </div>
                         <div class="desktop:grid-col-4">
@@ -264,7 +245,7 @@
                     </div>
                 </div>
             </form>
-            </div>
+        </div>
 
     </main>
     <script>

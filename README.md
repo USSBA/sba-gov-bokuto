@@ -3,6 +3,36 @@ Bokuto is a self-contained Express microservice for end users to create, review,
 through. It is designed to feed the Shinai lambda.  A [bokuto](https://en.wikipedia.org/wiki/Bokken) is a wooden
 practice sword that was the precursor to the bamboo shinai.
 
+## Data
+```
+userID
+eventID
+contact_email
+contact_name
+contact_phone
+district_office
+event_cost
+event_description
+event_title
+event_type
+event_status
+location_city
+location_name
+location_street_1
+location_street_2
+location_state
+location_zip
+recurring
+recurring_increment
+recurring_time_end_date
+recurring_time_end_time
+registration_url
+time_end_date
+time_end_time
+time_start_date
+time_start_time
+```
+
 ## Development
 
 ### Setup

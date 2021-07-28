@@ -1,0 +1,3 @@
+# API
+
+This application uses [AWS Chalice](https://aws.github.io/chalice/), a Python microframework for serverless applications.  To setup Chalice, you must have the AWS SDK, [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html) installed.  Once you have Boto3, follow the Chalice [Quickstart Guide](https://aws.github.io/chalice/quickstart.html) to get up and running.

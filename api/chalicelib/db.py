@@ -2,8 +2,8 @@ from uuid import uuid4
 
 from boto3.dynamodb.conditions import Key
 
-
 DEFAULT_USERNAME = 'default'
+
 
 class EventDB(object):
     def list_items(self):
@@ -18,8 +18,7 @@ class EventDB(object):
     def delete_item(self, uid):
         pass
 
-    def update_item(self, uid, description=None, state=None,
-                    metadata=None):
+    def update_item(self, uid, description=None, state=None, metadata=None):
         pass
 
 

@@ -33,8 +33,6 @@ time_start_date
 time_start_time
 ```
 
-## Development
-
 ### Setup
 
 Before getting started, make sure you have docker and docker-compose installed.

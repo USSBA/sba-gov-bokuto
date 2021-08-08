@@ -1,10 +1,14 @@
 import os
 import boto3
+from http import cookies
+import json
+from urllib import request, parse
 
 from chalice import Chalice, Response
 from chalice import CognitoUserPoolAuthorizer
 from chalice.app import BadRequestError
-from chalicelib import db
+from chalicelib import auth, db
+
 
 app = Chalice(app_name='bokuto')
 app.debug = True
@@ -37,9 +41,33 @@ def index():
 
 @app.route('/login')
 def login():
-    return Response(body='hello login route!',
+    request = app.current_request
+    if request.query_params:
+        id_token = auth.retrieve_token(
+            request.query_params['code'], 'id_token')
+        try:
+            return Response(body="Redirecting to Index...",
+                            status_code=302,
+                            headers={
+                                "Set-Cookie": f"eventadmin_access_token={id_token}; Path=/api; HttpOnly; Secure;",
+                                "Location": "https://eventadmin.ussba.io/index.html"
+                            })
+        except Exception as e:
+            print(e.read().decode())
+    else:
+        return Response(body="Redirect to Login",
+                        status_code=302,
+                        headers={
+                            "Location": auth.login_url}
+                        )
+
+
+@app.route('/test-cookie')
+def set_cookie():
+    return Response(body="Cookie set",
                     status_code=200,
-                    headers={'Set-Cookie': 'access_token=blargh; Secure; HttpOnly; SameSite=Strict;'})
+                    headers={"Set-Cookie": "cat=maximillian"}
+                    )
 
 
 @app.route('/events', methods=['GET'])

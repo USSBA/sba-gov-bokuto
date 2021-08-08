@@ -46,12 +46,14 @@ def login():
         id_token = auth.retrieve_token(
             request.query_params['code'], 'id_token')
         try:
-            return Response(body="Redirecting to Index...",
-                            status_code=302,
-                            headers={
-                                "Set-Cookie": f"eventadmin_access_token={id_token}; Path=/api; HttpOnly; Secure;",
-                                "Location": "https://eventadmin.ussba.io/index.html"
-                            })
+            return {'token': id_token}
+            # Cookie way to do it
+            # return Response(body="Redirecting to Index...",
+            #                 status_code=302,
+            #                 headers={
+            #                     "Set-Cookie": f"eventadmin_access_token={id_token}; Path=/api; HttpOnly; Secure;",
+            #                     "Location": "https://eventadmin.ussba.io/index.html"
+            #                 })
         except Exception as e:
             print(e.read().decode())
     else:

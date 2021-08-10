@@ -24,10 +24,12 @@ def get_events_db():
         )
     return _DB
 
+def redirect(url, message):
+    message = parse.urlencode(message).encode()
+    return Response(body='Redirecting', status_code=302, headers={"Location": url + f"?flash={message}"})
 
 authorizer = CognitoUserPoolAuthorizer(
     os.environ['COGNITO_USER_POOL_NAME'], provider_arns=[os.environ['COGNITO_USER_POOL_ARN']])
-
 
 @app.route('/')
 def index():
@@ -42,26 +44,46 @@ def index():
 @app.route('/login')
 def login():
     request = app.current_request
-    if request.query_params:
-        id_token = auth.retrieve_token(
-            request.query_params['code'], 'id_token')
-        try:
-            return {'token': id_token}
-            # Cookie way to do it
-            # return Response(body="Redirecting to Index...",
-            #                 status_code=302,
-            #                 headers={
-            #                     "Set-Cookie": f"eventadmin_access_token={id_token}; Path=/api; HttpOnly; Secure;",
-            #                     "Location": "https://eventadmin.ussba.io/index.html"
-            #                 })
-        except Exception as e:
-            print(e.read().decode())
-    else:
-        return Response(body="Redirect to Login",
-                        status_code=302,
-                        headers={
-                            "Location": auth.login_url}
-                        )
+    if not request.query_params:
+        message = "Login attempt missing critical data."
+        return redirect(auth.client_index_url, message)
+    
+    token = auth.retrieve_token(request.query_params['code'], 'id_token')
+    if token is False:
+        message = "Identity token could not be retrieved."
+        return redirect(auth.client_index_url, message)  
+
+    token_claims = auth.verify_claims(token)
+    if token_claims is False:
+        message = "Token claims could not be verified."
+        return redirect(auth.client_index_url, message)  
+
+    # Now, the token has been successfully retrieved and verified, so we can pass it to the client
+    # STRATEGY 1
+    # For verifying on the server, but then passing code to client as a query parameter
+    data = {
+        "token": token,
+        "flash": "Successfully logged in."
+    }
+    data = parse.urlencode(data).encode()
+    print(data)
+
+    return Response(body="Successful login", status_code=302, headers={"Location": f"https://eventadmin.ussba.io/index.html?{data}"})
+
+    # STRATEGY 2
+    # If verifying on client, then return the raw token
+    # Remember to change callback url in Cognito console and code to https://eventadmin.ussba.io/index.html
+    # return {'token': token}
+
+    # STRATEGY 3
+    # If using cookies, then return a secure cookie
+    # Remember to change callback url in Cognito console and code to https://eventadmin.ussba.io/api/login
+    # return Response(body="Redirecting to Index...",
+    #                 status_code=302,
+    #                 headers={
+    #                     "Set-Cookie": f"eventadmin_access_token={id_token}; Path=/api; HttpOnly; Secure;",
+    #                     "Location": "https://eventadmin.ussba.io/index.html"
+    #                 })
 
 
 @app.route('/test-cookie')

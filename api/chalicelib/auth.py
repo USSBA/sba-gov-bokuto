@@ -10,15 +10,15 @@ from jose.utils import base64url_decode
 app_client_id = os.environ['COGNITO_APP_CLIENT_ID']
 app_client_secret = os.environ['COGNITO_APP_CLIENT_SECRET']
 auth_url = os.environ['COGNITO_AUTH_URI']
+client_index_url = os.environ['CLIENT_INDEX_URI']
 redirect_url = os.environ['COGNITO_REDIRECT_URI']
 region = os.environ['COGNITO_REGION']
 userpool_id = os.environ['COGNITO_USER_POOL_ID']
 
-# Derived values
+# Derived variables
 login_url = f'{auth_url}/login?client_id={app_client_id}&response_type=code&scope=email+openid&redirect_uri={redirect_url}'
 token_url = f'{auth_url}/oauth2/token'
 keys_url = f'https://cognito-idp.{region}.amazonaws.com/{userpool_id}/.well-known/jwks.json'
-
 
 # TO DO - does this code needs to move to app.py?
 # instead of re-downloading the public keys every time
@@ -51,37 +51,35 @@ def retrieve_token(code, type):
     data = parse.urlencode(data).encode()
 
     app_client_auth_header = app_client_id + ":" + app_client_secret
+    app_client_auth_header_encoded = app_client_auth_header.encode()
     app_client_auth_header_base64 = base64.b64encode(
-        app_client_auth_header.encode())
+        app_client_auth_header_encoded)
     headers = {
         'Authorization': 'Basic ' + app_client_auth_header_base64.decode("utf-8"),
         'Content-Type': 'application/x-www-form-urlencoded',
     }
 
-    req = request.Request(token_url, headers=headers, method="POST")
+    req = request.Request(token_url, headers=headers, method="POST", data=data)
 
     try:
-        resp = request.urlopen(req, data=data)
-
+        resp = request.urlopen(req)
         # The JSON returned in the resulting response has the following keys:
         #  id_token – A valid user pool ID token. Note that an ID token is only provided if the openid scope was requested.
         #  access_token – A valid user pool access token.
         #  refresh_token – A valid user pool refresh token. This can be used to retrieve new tokens by sending it through a POST request to https: // AUTH_DOMAIN/oauth2/token, specifying the refresh_token and client_id parameters, and setting the grant_type parameter to “refresh_token“.
         #  expires_in – The length of time ( in seconds) that the provided ID and / or access token(s) are valid for.
         #  token_type – Set to “Bearer“.
-
         resp_decoded = resp.read().decode()
         tokens_json = json.loads(resp_decoded)
-        id_token = tokens_json[type]
-        return id_token
+        token = tokens_json[type]
+        return token
     except Exception as e:
         print(e.read().decode())
+        return False
 
-# https://github.com/awslabs/aws-support-tools/blob/master/Cognito/decode-verify-jwt/decode-verify-jwt.py
 
-
-def verify_claims(event, context):
-    token = event['token']
+def verify_claims(token):
+    # This code adapted from: https://github.com/awslabs/aws-support-tools/blob/master/Cognito/decode-verify-jwt/decode-verify-jwt.py
     # get the kid from the headers prior to verification
     headers = jwt.get_unverified_headers(token)
     kid = headers['kid']
@@ -120,11 +118,3 @@ def verify_claims(event, context):
     # now we can use the claims
     print(claims)
     return claims
-
-
-# the following is useful to make this script executable in both
-# AWS Lambda and any other local environments
-if __name__ == '__main__':
-    # for testing locally you can enter the JWT ID Token here
-    event = {'token': ''}
-    verify_claims(event, None)

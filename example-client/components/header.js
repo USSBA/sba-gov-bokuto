@@ -76,11 +76,11 @@ export class Header extends HTMLElement {
                 <div class="usa-logo" id="extended-mega-logo">
                     <em class="usa-logo__text">
     
-                        <a href="https://eventadmin.ussba.io/index.html" title="EventsAdmin.gov">
+                        <a href="index.html" title="EventsAdmin.gov">
                             <img alt="SBA Logo" src="assets/img/ussba-logo-isolated.svg" height="44px">
                         </a>
     
-                        <a href="https://eventadmin.ussba.io/index.html" title="EventsAdmin.gov">
+                        <a href="index.html" title="EventsAdmin.gov">
                             Events Administration
                         </a>
     
@@ -96,22 +96,22 @@ export class Header extends HTMLElement {
                     <!--Main Menu-->
                     <ul class="usa-nav__primary usa-accordion">
                         <li class="usa-nav__primary-item">
-                            <a href="https://eventadmin.ussba.io/index.html" class="usa-nav__link">
+                            <a href="index.html" class="usa-nav__link">
                                 <span> Home </span>
                             </a>
                         </li>
                         <li class="usa-nav__primary-item">
-                            <a href="https://eventadmin.ussba.io/new.html" class="usa-nav__link">
+                            <a href="new.html" class="usa-nav__link">
                                 <span> Create </span>
                             </a>
                         </li>
                         <li class="usa-nav__primary-item">
-                            <a href="https://eventadmin.ussba.io/edit.html" class="usa-nav__link">
+                            <a href="edit.html" class="usa-nav__link">
                                 <span> Modify </span>
                             </a>
                         </li>
                         <li class="usa-nav__primary-item">
-                            <a href="https://eventadmin.ussba.io/review.html" class="usa-nav__link">
+                            <a href="review.html" class="usa-nav__link">
                                 <span> Review </span>
                             </a>
                         </li>
@@ -126,7 +126,7 @@ export class Header extends HTMLElement {
                                     href="https://auth.ussba.io/login?client_id=2ua8n97ki6n13db5kp1pfcbpk2&response_type=code&scope=email+openid&redirect_uri=https://eventadmin.ussba.io/api/signin">Login</a>
                             </li>
                             <li class="usa-nav__secondary-item">
-                                <a href="https://eventadmin.ussba.io/profile.html">Profile</a>
+                                <a href="profile.html">Profile</a>
                             </li>
                         </ul>
                     </div>

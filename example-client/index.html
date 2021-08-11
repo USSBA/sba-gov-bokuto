@@ -57,30 +57,52 @@
     <eventadmin-footer></eventadmin-footer>
     <script>
         let params = new URLSearchParams(document.location.search.substring(1));
-        let code = params.get("code");
-        console.log(code);
-        if (code !== null) {
-            fetch('https://eventadmin.ussba.io/api/login?code=' + code).then(function(response) {
-                // The API call was successful!
-                if (response.ok) {
-                    return response.json();
-                }
-
-                // There was an error
-                return Promise.reject(response);
-
-            }).then(function(data) {
-                // This is the JSON from our response
-                console.log(data);
-                sessionStorage.setItem('eventadmin_access_token', data['token']);
-            }).catch(function(err) {
-                // There was an error
-                console.warn('Something went wrong.', err);
-            });
-
-        } else {
-            console.log("No code found!")
+        let code = params.get("token");
+        console.log(token);
+        if (token !== null) {
+            sessionStorage.setItem('eventadmin_access_token', token);
         }
+
+        let flash = params.get("flash");
+        console.log(flash);
+        if (flash !== null) {
+            let flashElement = document.createElement('p');
+            flashElement.textContent = flash;
+            let mainElement = document.querySelector('main');
+            mainElement.appendChild(flashElement);
+        }
+
+        // If verifying on client, then use the raw token to place a request against the login route
+
+        // let params = new URLSearchParams(document.location.search.substring(1));
+        // let code = params.get("code");
+        // console.log(code);
+        // if (code !== null) {
+        //     sessionStorage.setItem('eventadmin_access_token', data['token']);
+        // }
+
+        // if (code !== null) {
+        //     fetch('https://eventadmin.ussba.io/api/login?code=' + code).then(function(response) {
+        //         // The API call was successful!
+        //         if (response.ok) {
+        //             return response.json();
+        //         }
+
+        //         // There was an error
+        //         return Promise.reject(response);
+
+        //     }).then(function(data) {
+        //         // This is the JSON from our response
+        //         console.log(data);
+        //         sessionStorage.setItem('eventadmin_access_token', data['token']);
+        //     }).catch(function(err) {
+        //         // There was an error
+        //         console.warn('Something went wrong.', err);
+        //     });
+
+        // } else {
+        //     console.log("No code found!")
+        // }
 
         // How to retrieve the id_token for future requests
         // var id_token = sessionStorage.getItem('eventadmin_access_token');

@@ -16,8 +16,8 @@ export class Footer extends HTMLElement {
     <div class="usa-footer__primary-container grid-row">
         <div class="usa-footer__logo grid-row grid-gap-2">
             <div class="grid-col-2">
-                <a href="https://eventadmin.ussba.io/index.html" title="EventsAdmin.gov">
-                    <img class="usa-footer__logo-img" src="assets/lockups-isolated.svg" alt="SBA Logo" />
+                <a href="index.html" title="EventsAdmin.gov">
+                    <img class="usa-footer__logo-img" src="assets/img/lockups-isolated.svg" alt="SBA Logo" />
                 </a>
             </div>
 
@@ -29,7 +29,7 @@ export class Footer extends HTMLElement {
         desktop:grid-col-2
         usa-footer__primary-content
       ">
-                            <a class="usa-footer__primary-link" href="https://eventadmin.ussba.io/index.html">
+                            <a class="usa-footer__primary-link" href="index.html">
                                 Home
                             </a>
                         </li>
@@ -39,7 +39,7 @@ export class Footer extends HTMLElement {
         desktop:grid-col-2
         usa-footer__primary-content
       ">
-                            <a class="usa-footer__primary-link" href="https://eventadmin.ussba.io/new.html">
+                            <a class="usa-footer__primary-link" href="new.html">
                                 Create
                             </a>
                         </li>
@@ -49,7 +49,7 @@ export class Footer extends HTMLElement {
         desktop:grid-col-2
         usa-footer__primary-content              
         ">
-                            <a class="usa-footer__primary-link" href="https://eventadmin.ussba.io/edit.html">
+                            <a class="usa-footer__primary-link" href="edit.html">
                                 Modify
                             </a>
                         </li>
@@ -57,7 +57,7 @@ export class Footer extends HTMLElement {
                     mobile-lg:grid-col-6
                     desktop:grid-col-2
                     usa-footer__primary-content                          ">
-                            <a class="usa-footer__primary-link" href="https://eventadmin.ussba.io/approve.html">
+                            <a class="usa-footer__primary-link" href="approve.html">
                                 Approve
                             </a>
                         </li>
